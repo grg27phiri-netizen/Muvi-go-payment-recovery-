@@ -1,0 +1,31 @@
+{
+  "product": "MUVI GO",
+  "version": "6.0-android-preparation",
+  "based_on": [
+    "ZIGO TV Deployment v5.15.1",
+    "ZIGO TV Reference Match Frontend",
+    "ZIGO TV Streaming Engine Stage"
+  ],
+  "owner_creator": "George Phiri",
+  "development_brand": "GP Creations \u00a9 2026",
+  "status": "MUVI GO V6 security foundation installed; Android APK build pending",
+  "features": [
+    "Mobile-first 12-channel interface",
+    "Search and category filters",
+    "Local saved channels",
+    "HLS.js scaffold and native HLS fallback",
+    "Fullscreen control",
+    "Flask and SQLite Studio prototype",
+    "Health endpoint",
+    "Docker and local launchers"
+  ],
+  "not_implemented": [
+    "Authorized production stream URLs",
+    "Production authentication and authorization",
+    "Payment-provider integration",
+    "Production CDN and media ingestion",
+    "DRM",
+    "Production security audit"
+  ],
+  "platform": "Android APK"
+}

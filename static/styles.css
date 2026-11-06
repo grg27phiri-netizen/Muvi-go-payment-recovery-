@@ -1,0 +1,188 @@
+*{box-sizing:border-box} :root{--bg:#111117;--panel:#17171f;--line:#34313a;--green:#78d66d;--orange:#ff9c42;--gold:#d8ad70;--muted:#a3a3a8}
+html,body{margin:0;min-height:100%;background:#09090d;color:#f7f7f8;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+body{display:flex;justify-content:center;background:radial-gradient(ellipse at 15% 15%,#24251c 0,transparent 35%),radial-gradient(ellipse at 90% 80%,#1d2118 0,transparent 35%),#09090d}
+.app-shell{width:min(100%,520px);min-height:100dvh;background:linear-gradient(160deg,#17171f,#101016 45%,#15151d);padding:calc(18px + env(safe-area-inset-top)) 16px calc(94px + env(safe-area-inset-bottom));position:relative;box-shadow:0 0 40px #0008}
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;margin:0 1px 22px}.brand{font-size:clamp(34px,9vw,52px);line-height:1;font-weight:950;letter-spacing:-2.8px;color:#6fd35f}.brand b{color:#ff8c28}.flag{display:inline-flex;width:28px;height:36px;margin-left:7px;vertical-align:middle;position:relative;top:-2px;background:#188747;align-items:center;justify-content:center;border-left:7px solid #111}.flag:after{content:"";width:7px;height:100%;background:#e23b32;position:absolute;left:7px}.flag em{width:9px;height:24px;background:#ff9e27;display:block;z-index:1;clip-path:polygon(50% 0,100% 30%,85% 100%,15% 100%,0 30%)}.tagline{font-size:14px;color:#9b9ba1;margin-top:9px;font-weight:550}.header-actions{display:flex;gap:18px;padding-top:4px}.icon-btn{border:0;background:transparent;color:var(--gold);font-size:34px;line-height:1;padding:4px;cursor:pointer}.search-panel{margin:-10px 0 16px}.search-panel input{width:100%;padding:13px 15px;border:1px solid #51453c;border-radius:14px;background:#0c0c11;color:white;font-size:16px;outline:none}.hidden{display:none!important}
+.live-panel{border:1px solid #66503c;border-radius:21px;padding:15px 14px 12px;background:linear-gradient(145deg,#191820,#13131a);box-shadow:0 8px 24px #0004}.live-panel h2{font-size:18px;letter-spacing:-.5px;margin:0 0 14px;font-weight:800}.player{overflow:hidden;border-radius:17px;background:#08090c;border:1px solid #22222a}.video-stage{height:clamp(170px,43vw,225px);position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 120%,#24542d,#101b16 65%,#08090c)}#liveVideo{width:100%;height:100%;object-fit:contain;background:#050507;display:block}.player-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;text-align:center;padding:18px;background:linear-gradient(140deg,#171a20d9,#111711e8);pointer-events:none}.player-placeholder strong{font-size:15px}.player-placeholder span{font-size:11px;color:#b9b9be;max-width:240px;line-height:1.5}.play-symbol{width:44px;height:44px;border:1px solid #80cf70;border-radius:50%;display:grid;place-items:center;color:#ff9b42;padding-left:3px;font-size:19px}.player-status{position:absolute;top:10px;left:10px;background:#17171edb;border:1px solid #4a484d;border-radius:7px;padding:5px 7px;font-size:9px;letter-spacing:.7px;color:#ffb16a;font-weight:800;pointer-events:none}.player-info{display:flex;align-items:center;gap:9px;padding:10px 9px 8px;background:linear-gradient(90deg,#17151d,#20231b)}.live-badge{background:#15151c;color:#ff9b45;border-radius:8px;padding:8px 7px;font-size:13px;font-weight:900;white-space:nowrap}.match{min-width:0;display:flex;flex-direction:column;gap:4px;flex:1}.match strong{font-size:13px;color:#86d777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.match b{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tiny-btn{border:0;background:transparent;color:#a9b7a2;font-size:22px;padding:3px;cursor:pointer}.progress-label{display:flex;justify-content:space-between;gap:8px;color:#aaaab0;font-size:11px;margin:10px 1px 0}.demo-note{font-size:10px;color:#777;text-align:right}
+.filters{display:flex;gap:6px;overflow-x:auto;padding:22px 1px 20px;scrollbar-width:none}.filters::-webkit-scrollbar{display:none}.filter{flex:0 0 auto;background:#1a1a21;border:1px solid #44434b;border-radius:22px;padding:9px 14px;color:#c9c9ce;font-weight:700;font-size:13px;cursor:pointer}.filter.active{background:var(--orange);border-color:var(--orange);color:#19151a}.filter[data-category="Sports"]{border-color:#73c76e;color:#91d985}.section-heading{display:flex;align-items:center;justify-content:space-between;margin:0 0 17px}.section-heading h2{font-size:17px;letter-spacing:-.5px;margin:0;font-weight:850}.see-all{background:transparent;border:0;color:#ff9b48;font-size:14px;font-weight:800;white-space:nowrap;cursor:pointer}.see-all span{font-size:21px;vertical-align:middle;margin-left:8px}
+.channel-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px 12px}.channel-card{min-width:0;min-height:139px;border:1.5px solid #79c976;border-radius:14px;background:linear-gradient(140deg,#1b1b20,#16161c);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:13px 5px 9px;cursor:pointer;position:relative;box-shadow:inset 0 0 0 1px #ffffff04;transition:transform .15s,border-color .15s}.channel-card:nth-child(3n+2){border-color:#d6a35e}.channel-card:active{transform:scale(.97)}.channel-card .logo{height:48px;width:100%;display:flex;align-items:center;justify-content:center;font-size:34px;line-height:1;margin-bottom:8px}.logo .ball{font-size:34px}.logo .cap{font-size:34px}.logo .wordmark{font-size:12px;font-style:italic;font-weight:1000;letter-spacing:-.7px;color:#fff;text-shadow:2px 2px #101010}.logo .wordmark span{color:#7cd46d}.channel-card h3{font-size:12px;line-height:1.2;text-align:center;margin:0 0 8px;font-weight:850;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}.channel-card .meta{font-size:11px;font-weight:650;text-align:center;color:#9cdb8f;white-space:nowrap}.channel-card .meta.orange{color:#ff9b53}.channel-card .views{font-size:8px;color:#9a9aa0;margin-top:2px}.saved-mark{position:absolute;top:6px;right:7px;color:#ffad56;font-size:13px}.bottom-nav{position:fixed;z-index:5;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,520px);display:flex;justify-content:space-around;padding:11px 7px calc(9px + env(safe-area-inset-bottom));background:#202028ed;border:1px solid #484650;border-bottom:0;border-radius:30px 30px 0 0;backdrop-filter:blur(16px)}.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:transparent;border:0;color:#b6b6bc;font-size:12px;font-weight:700;cursor:pointer}.nav-item span{font-size:25px;line-height:1;color:inherit}.nav-item.selected{color:#ff9d43}.nav-item:nth-child(2),.nav-item:nth-child(3){color:#85d978}.nav-item.selected:nth-child(2),.nav-item.selected:nth-child(3){color:#ff9d43}.toast{position:fixed;z-index:10;bottom:100px;left:50%;transform:translate(-50%,10px);opacity:0;pointer-events:none;background:#2a292f;border:1px solid #5a5148;border-radius:12px;padding:12px 16px;font-size:13px;max-width:90vw;transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:521px){.app-shell{min-height:100vh}.bottom-nav{bottom:0}.channel-card{min-height:150px}.channel-card h3{font-size:13px}}
+@media(max-width:360px){.app-shell{padding-left:11px;padding-right:11px}.channel-grid{gap:9px}.channel-card{min-height:128px}.channel-card h3{font-size:11px}.filter{padding:8px 12px}.section-heading h2{font-size:15px}}
+
+/* MUVI GO on-demand media catalogue */
+.media-library{margin:28px 0 125px}
+.media-status{font-size:12px;color:#b9b9c1;margin:0 0 18px;line-height:1.5}
+.media-subsection{margin:22px 0}
+.media-subsection h3{font-size:15px;margin:0 0 12px;color:#86d777}
+.library-video{display:block;width:100%;max-height:320px;aspect-ratio:16/9;object-fit:contain;background:#050507;border:1px solid #38363f;border-radius:13px;margin:0 0 12px}
+.library-audio{display:block;width:100%;margin:0 0 12px}
+.media-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.media-item{min-width:0;text-align:left;padding:12px;border:1px solid #49464f;border-radius:12px;background:linear-gradient(145deg,#1c1b23,#131319);color:#f3f0f5;cursor:pointer}
+.media-item:active{transform:scale(.98)}
+.media-item strong{display:block;font-size:13px;overflow-wrap:anywhere;margin-bottom:5px}
+.media-item span{display:block;color:#aeadb7;font-size:10px;overflow-wrap:anywhere}
+.media-empty{font-size:12px;color:#aaaab4;padding:13px;border:1px dashed #484650;border-radius:10px;grid-column:1/-1}
+
+
+/* MUVI GO authenticated profile */
+.profile-panel {
+  margin: 28px 0 125px;
+}
+.profile-card {
+  padding: 20px;
+  border: 1px solid #49464f;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #1c1b23, #131319);
+}
+.profile-card h3 {
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+.profile-card p,
+.profile-status {
+  color: #b9b9c1;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.profile-form {
+  display: grid;
+  gap: 9px;
+  margin-top: 18px;
+}
+.profile-form label {
+  color: #d8d5dc;
+  font-size: 13px;
+  font-weight: 700;
+}
+.profile-form input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #49464f;
+  border-radius: 10px;
+  background: #0c0c11;
+  color: #fff;
+  font: inherit;
+}
+.profile-action {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+  border: 0;
+  border-radius: 10px;
+  background: #ff9c42;
+  color: #171117;
+  font-weight: 800;
+  cursor: pointer;
+}
+.profile-action.secondary {
+  border: 1px solid #6d8f62;
+  background: #20251f;
+  color: #a4e496;
+}
+.profile-action:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+.profile-divider {
+  margin-top: 24px;
+  color: #aaaab4;
+  font-size: 12px;
+  text-align: center;
+}
+.profile-avatar {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+  border: 1px solid #78d66d;
+  border-radius: 50%;
+  color: #ff9c42;
+  font-size: 30px;
+}
+
+/* MUVI GO: compact no-feed panel inside the video player */
+#videoStage {
+  position: relative;
+  overflow: hidden;
+}
+
+#playerPlaceholder {
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(88%, 320px);
+  max-width: 88%;
+  height: auto;
+  min-height: 0;
+  padding: 12px 14px;
+  gap: 5px;
+  border: 1px solid #514b42;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #202029f2, #111711f5);
+  box-shadow: 0 6px 22px #0008;
+}
+
+#playerPlaceholder .channel-placeholder-icon {
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+#playerPlaceholder .play-symbol {
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+}
+
+#playerPlaceholder strong {
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+#playerPlaceholder span {
+  max-width: 100%;
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+/* Hide orange player status caption only */
+#playerStatus.player-status {
+    display: none !important;
+}
+
+/* Completely hide player status caption */
+#playerStatus {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Completely hide player status caption */
+#playerStatus {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+
+/* MUVI GO STUDIO V4 STATISTICS */
+.studio-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.studio-stat {
+  min-width: 0;
+}
+
+.studio-stat strong {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 340px) {
+  .studio-stats {
+    grid-template-columns: 1fr;
+  }
+}

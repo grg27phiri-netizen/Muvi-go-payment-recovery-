@@ -1,0 +1,28 @@
+.env
+.env.*
+!.env.example
+!.env.mtn-sandbox.example
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.db
+*.sqlite3
+logs/
+*.log
+
+# Local databases
+data/*.db
+data/backups/
+
+# Historical backups
+backups/
+*.bak
+*.backup*
+*.pre_*
+
+# Local media assets
+media/videos/
+media/music/
+
+# Accidental shell-output files
+t-installed*

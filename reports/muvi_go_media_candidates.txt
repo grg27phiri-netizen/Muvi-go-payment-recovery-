@@ -1,0 +1,151 @@
+
+=== VIDEO CANDIDATES: 58 ===
+001.   25.60 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/01bbcb345d39d06631300e4ce62770f8_1790064330247.mp4
+002.    1.19 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/084e9729f5c54a4cddb1ba55f9e1fd5d_1790364015445.mp4
+003.    3.03 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/15a38a2c7ebe2c4ee89f90230089a4a5_1789991374683.mp4
+004.    3.48 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/17f241b27e37ba8d2ff59591e4d5d7be_1790536961064.mp4
+005.    2.01 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/24434f732719e0437fb0c33c4b21e90b_1789990960684.mp4
+006.    6.73 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/36b80bbea5264694cfea1a3a172e6626_1790369297875.mp4
+007.   13.37 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/38f00aa503ce0b8e41973ae2c80fc711_1790138623204.mp4
+008.    7.07 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/38fd2f288059137f64f32f015e246440_1790396357740.mp4
+009.    0.97 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/3c8bc05ed728862b8803c136f8132034_1790366162050.mp4
+010.    8.34 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/50ffc4a8464cc46d458bdae0e22f69a1_1790104136188.mp4
+011.   17.54 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/59202927ade9e016ac4b79c0831c806d_1790566592686.mp4
+012.    6.96 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/6087c939a387a9906ee85b2c3cb53012_1789991615521.mp4
+013.    0.68 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/608c8d8c3a399f1dcc5e33f52c845048_1790370068557.mp4
+014.    1.29 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/71cbbbde8e68aeda1ed3654cf3622f43_1790565957165.mp4
+015.    7.99 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/7d87157cb70a9514a4d1ac0f93ba1118_1790395878100.mp4
+016.   31.70 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/7da65b42-79cd-43f1-b04c-e58a886de1b6-watermark.mp4
+017.    0.94 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/8f83ee400094b52ad1174bbe8bb22755_1790565923256.mp4
+018.    5.56 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/9a1838ecdb4c956a085fd3232c01bbfe_1789964028403.mp4
+019.    0.25 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/a9f630f66c2e82a8a770c8c1654ba320_1790097972846.mp4
+020.    6.41 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/b7086487d59a0880e91ee3020cbb66a3_1789964107392.mp4
+021.    9.25 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/bad22c7244a1544fe3242f70ab00e268_1790395700130.mp4
+022.    0.36 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/c50206ee109f5dca0fd4ca65c810c52f_1790366796666.mp4
+023.    1.24 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/d30124df784e6c0aff9156744650596b_1790064378458.mp4
+024.    0.90 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/d35b1fe8e65a48942e57d9c68ca74a52_1790138525832.mp4
+025.    1.03 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/d857b48e310f9d07c3d8a32fc645d509_1790067603667.mp4
+026.   13.52 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/dd0d57e89f0b5a2a3f886c2606debd5a_1790139891121.mp4
+027.    3.05 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/e2185898773c3ab208cfc561815e00ba_1790099689776.mp4
+028.    2.57 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/ec56b72b65bb8fc903b43377e101bb5e_1790565712127.mp4
+029.    0.43 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/ed5856c6f161b1e9af14016f02d707f8_1790536459364.mp4
+030.    9.82 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/f10f942ee45e33128d33a4bad966fc1e_1790097524182.mp4
+031.    0.63 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/f23b801c28bbafcada0d6595a57d5ad8_1789991418273.mp4
+032.   55.12 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/VID_20260910_113827.mp4
+033.   78.96 MB | /data/data/com.termux/files/home/storage/shared/DCIM/Camera/VID_20260910_121515.mp4
+034.    4.87 MB | /data/data/com.termux/files/home/storage/shared/Download/0385052cb5d6bf5853ef87f11757f712_1790744820867.mp4
+035.    4.92 MB | /data/data/com.termux/files/home/storage/shared/Download/11102ebdab8988a42e14ba6f8296db4e_1790760608312.mp4
+036.    1.68 MB | /data/data/com.termux/files/home/storage/shared/Download/111c6fdb9ab731a47570bc92f736f1d6_1790778922179.mp4
+037.   17.05 MB | /data/data/com.termux/files/home/storage/shared/Download/19dd08ed72249b2a3c3479d11794ebf2_1791209771854.mp4
+038.    1.39 MB | /data/data/com.termux/files/home/storage/shared/Download/28534a019401f495f4e5de0affa13795_1792345097044.mp4
+039.    1.23 MB | /data/data/com.termux/files/home/storage/shared/Download/3d7abafc2337a10151b723ff9484b83c_1791177452852.mp4
+040.   24.97 MB | /data/data/com.termux/files/home/storage/shared/Download/8a801ea13e238614ce6db309e43fbb00_1791488151741.mp4
+041.    2.92 MB | /data/data/com.termux/files/home/storage/shared/Download/a18a82c6ce1e96ca42b145a9c95377fc_1790777979888.mp4
+042.   20.07 MB | /data/data/com.termux/files/home/storage/shared/Download/ac64198d2763094790172f33fbfaf3dd_1791209605931.mp4
+043.    1.63 MB | /data/data/com.termux/files/home/storage/shared/Download/b042ceea3457f648ac3dd205a7c6d431_1790760841016.mp4
+044.   36.27 MB | /data/data/com.termux/files/home/storage/shared/Download/ba0c0289464cf265c629c21e8577278c_1790745142389.mp4
+045.   10.28 MB | /data/data/com.termux/files/home/storage/shared/Download/cb73b4146f877a38bf380016e43d177d_1790761206005.mp4
+046.    0.45 MB | /data/data/com.termux/files/home/storage/shared/Download/cc37f8d7b13363c714156d204538b4ba_1791188439832.mp4
+047.    4.33 MB | /data/data/com.termux/files/home/storage/shared/Download/d99a55e5b7bbe3ca34528422d85f1462_1791137372032.mp4
+048.    0.83 MB | /data/data/com.termux/files/home/storage/shared/Download/daabeaa02a88a0591fbbf9ecc7068f5d_1790760646536.mp4
+049.    2.74 MB | /data/data/com.termux/files/home/storage/shared/Download/e32b2ad1a1cc83f61b9119f39bbd2af2_1791488723171.mp4
+050.   47.20 MB | /data/data/com.termux/files/home/storage/shared/Download/f67e47cf6097805f1a314dc55a27bfd1_1790744691143.mp4
+051.    0.58 MB | /data/data/com.termux/files/home/storage/shared/Download/muvi-test.mp4
+052.    0.58 MB | /data/data/com.termux/files/home/storage/shared/Download/Photos-1-001 (1)/VID-20230822-WA0073.mp4
+053.    0.58 MB | /data/data/com.termux/files/home/storage/shared/Download/Photos-1-001/VID-20230822-WA0073.mp4
+054.    1.29 MB | /data/data/com.termux/files/home/storage/shared/Movies/screen-20261023-061703.mp4
+055.   29.78 MB | /data/data/com.termux/files/home/storage/shared/Movies/screen-20261023-061931.mp4
+056.    0.46 MB | /data/data/com.termux/files/home/storage/shared/Movies/WhatsApp/VID-20260915-WA0016.mp4
+057.    4.89 MB | /data/data/com.termux/files/home/storage/shared/Movies/WhatsApp/VID-20260926-WA0002.mp4
+058.    7.38 MB | /data/data/com.termux/files/home/storage/shared/Movies/WhatsApp/VID-20260926-WA0003.mp4
+
+=== SONG CANDIDATES: 89 ===
+001.    8.24 MB | /data/data/com.termux/files/home/storage/shared/Download/01. Drake -  Nice For What(27621).mp3
+002.    8.58 MB | /data/data/com.termux/files/home/storage/shared/Download/05-damian_marley-medication_(feat._stephen_marley).mp3
+003.    8.37 MB | /data/data/com.termux/files/home/storage/shared/Download/3._Y_Celeb_-_Alipala_Kale___feat._Jay_Dollar_int__(0).mp3
+004.   11.87 MB | /data/data/com.termux/files/home/storage/shared/Download/3P_4na5_x_Flex_zm_ft_T-sean_Indoshi_[Official_Video_4K](0).mp3
+005.    9.02 MB | /data/data/com.termux/files/home/storage/shared/Download/4_Na_5_-_Ukonafuma_[Official_Video_4K](0)(1).mp3
+006.    9.02 MB | /data/data/com.termux/files/home/storage/shared/Download/4_Na_5_-_Ukonafuma_[Official_Video_4K](0).mp3
+007.   12.08 MB | /data/data/com.termux/files/home/storage/shared/Download/4_Na_5_ft_Flex_Zm___Forbes_-_Remember_Me_[Official_Video_4K](0)(1).mp3
+008.   10.76 MB | /data/data/com.termux/files/home/storage/shared/Download/@guntolah___x_@jolasto_x__@Skhrizy_x_@icemalawi1756___Kumauzana__official_video_(0).mp3
+009.    3.77 MB | /data/data/com.termux/files/home/storage/shared/Download/Akon_feat_Snoop_Dogg_I_wanna_Love_You.mp3
+010.    2.16 MB | /data/data/com.termux/files/home/storage/shared/Download/Alkaline  -  One Life.mp3
+011.    2.58 MB | /data/data/com.termux/files/home/storage/shared/Download/Alkaline - Fleek.mp3
+012.    3.35 MB | /data/data/com.termux/files/home/storage/shared/Download/Alkaline - My Life Lowe Mi.mp3
+013.    3.51 MB | /data/data/com.termux/files/home/storage/shared/Download/Alkaline - RIDE ON ME (REMIX) ft. Sean Kingston.mp3
+014.    3.56 MB | /data/data/com.termux/files/home/storage/shared/Download/Alkaline Move Mountains Things Mi Love Pt2 2014 [Songsx.Pk].mp3
+015.    2.52 MB | /data/data/com.termux/files/home/storage/shared/Download/alkaline on fleek128.mp3
+016.    4.83 MB | /data/data/com.termux/files/home/storage/shared/Download/Alkaline-ATM-All-About-The-Money.mp3
+017.    2.13 MB | /data/data/com.termux/files/home/storage/shared/Download/alkaline_champion_boy_mp3_48504.mp3
+018.    1.78 MB | /data/data/com.termux/files/home/storage/shared/Download/alkaline_city_mp3_55339.mp3
+019.    3.13 MB | /data/data/com.termux/files/home/storage/shared/Download/alkaline_company_february_2016_mp3_55806.mp3
+020.    3.08 MB | /data/data/com.termux/files/home/storage/shared/Download/alkaline_formula_mp3_50117.mp3
+021.    2.20 MB | /data/data/com.termux/files/home/storage/shared/Download/alkaline_ft.mp3
+022.    2.59 MB | /data/data/com.termux/files/home/storage/shared/Download/alkaline_nice_easy_official_audio_mp3_32297.mp3
+023.    3.31 MB | /data/data/com.termux/files/home/storage/shared/Download/Alkaline_Ride_On_Me.mp3
+024.    2.21 MB | /data/data/com.termux/files/home/storage/shared/Download/alkaline_spoil_you_raw_october_2016_mp3_42538.mp3
+025.    3.19 MB | /data/data/com.termux/files/home/storage/shared/Download/alkaline_things_mi_love_official_video_july_2013_hd_hi_47410.mp3
+026.    0.99 MB | /data/data/com.termux/files/home/storage/shared/Download/alkaline_vybz_kartel_fix_up_riddim_preview_december_2014_crushroad876_mp3_52.mp3
+027.    5.31 MB | /data/data/com.termux/files/home/storage/shared/Download/America ft Great pro_Captain America (Prod by Great PrO).mp3
+028.    3.91 MB | /data/data/com.termux/files/home/storage/shared/Download/b,s,b@iloveyou.mp3
+029.    3.43 MB | /data/data/com.termux/files/home/storage/shared/Download/Bruno_Mars_Ft_Damian_Marley_Liquor_Store_Blues.mp3
+030.    4.45 MB | /data/data/com.termux/files/home/storage/shared/Download/Busy Signal - One more night.mp3
+031.    4.61 MB | /data/data/com.termux/files/home/storage/shared/Download/Cas-G ft Great Pro-Because of Love(Prod By Tok Cido.mp3
+032.    8.01 MB | /data/data/com.termux/files/home/storage/shared/Download/christopher martin   mama - [MP3JUICES.COM].mp3
+033.    3.76 MB | /data/data/com.termux/files/home/storage/shared/Download/Cindy ft Great Pro_Special Sombody.mp3
+034.    3.71 MB | /data/data/com.termux/files/home/storage/shared/Download/Damian Marley - Living It Up (spankradio.cz).mp3
+035.    1.23 MB | /data/data/com.termux/files/home/storage/shared/Download/Damian_Marley_Road_To_Zion.mp3
+036.    7.02 MB | /data/data/com.termux/files/home/storage/shared/Download/Dan_Lu_feat._Driemo_-_Ndapata__Lyric_Video_(0)(3).mp3
+037.    7.02 MB | /data/data/com.termux/files/home/storage/shared/Download/Dan_Lu_feat._Driemo_-_Ndapata__Lyric_Video_(0).mp3
+038.   10.05 MB | /data/data/com.termux/files/home/storage/shared/Download/Dizmo_ft._Yo_Maps_–_Teti___Official_Music_Video____2025_Dir_by_Chichi_Ice(0)(1).mp3
+039.   10.05 MB | /data/data/com.termux/files/home/storage/shared/Download/Dizmo_ft._Yo_Maps_–_Teti___Official_Music_Video____2025_Dir_by_Chichi_Ice(0).mp3
+040.    3.43 MB | /data/data/com.termux/files/home/storage/shared/Download/DOROTIZO_UNITENGELELEmx.mp3
+041.    3.69 MB | /data/data/com.termux/files/home/storage/shared/Download/Drizzy & Great pro_KONTOLO [@AMrecords].mp3
+042.    4.71 MB | /data/data/com.termux/files/home/storage/shared/Download/Drizzy ft Gynks Justine-With you mx.mp3
+043.    3.00 MB | /data/data/com.termux/files/home/storage/shared/Download/El Madu (nuh corruption) 2018 peace riddim prod by classic .mp3
+044.    3.72 MB | /data/data/com.termux/files/home/storage/shared/Download/el madu ft tray blunt (she calls me).mp3
+045.    3.06 MB | /data/data/com.termux/files/home/storage/shared/Download/EL Madu ft.mp3
+046.    4.35 MB | /data/data/com.termux/files/home/storage/shared/Download/EL Madu MIX.mp3
+047.    4.28 MB | /data/data/com.termux/files/home/storage/shared/Download/Fally_Ipupa_-_Nidja_feat._R._Kelly_(Clip_officiel).mp3
+048.    3.25 MB | /data/data/com.termux/files/home/storage/shared/Download/Fally_Ipupa_-_Sweet_Life_La_Vie_est_Belle_(Clip_Officiel).mp3
+049.    3.74 MB | /data/data/com.termux/files/home/storage/shared/Download/famous_mp3_11199.mp3
+050.    3.66 MB | /data/data/com.termux/files/home/storage/shared/Download/FLEMZEE_POPOMELAmx@AMrecordz.mp3
+051.    4.58 MB | /data/data/com.termux/files/home/storage/shared/Download/Great pro _Nizachita Bwanjin - .mp3
+052.    4.63 MB | /data/data/com.termux/files/home/storage/shared/Download/Great-Pro_HitSong.mp3
+053.    9.53 MB | /data/data/com.termux/files/home/storage/shared/Download/HD_Empire_Mayo_Na_Tata__Offficial_Video(0)(1).mp3
+054.    9.53 MB | /data/data/com.termux/files/home/storage/shared/Download/HD_Empire_Mayo_Na_Tata__Offficial_Video(0).mp3
+055.    9.38 MB | /data/data/com.termux/files/home/storage/shared/Download/Injato_–_T-Sean_ft_Chef_187__Official_Video____Afrobeats_Zambia(0).mp3
+056.    6.20 MB | /data/data/com.termux/files/home/storage/shared/Download/Justine Bieber-Down.MP3
+057.    3.83 MB | /data/data/com.termux/files/home/storage/shared/Download/KAY-FIGO-FT-DAMBISA-VAMUCHILOTO.mp3
+058.    6.92 MB | /data/data/com.termux/files/home/storage/shared/Download/mavado---the-messiah---instrumental(chimney-records)-(d.-malevich).mp3
+059.    3.21 MB | /data/data/com.termux/files/home/storage/shared/Download/Mavado_Luv_Me_Girl.mp3
+060.    3.52 MB | /data/data/com.termux/files/home/storage/shared/Download/Meek_Mill_Dreams_And_Nightmares.mp3
+061.    4.23 MB | /data/data/com.termux/files/home/storage/shared/Download/Mic Burner - Thought of You [Official Music Video] Transblasts Entertainment - MP4 (360p)(WapCot.com).mp3
+062.    4.86 MB | /data/data/com.termux/files/home/storage/shared/Download/Migos-Open-It-Up.mp3
+063.    4.25 MB | /data/data/com.termux/files/home/storage/shared/Download/Peter_Okoye_Mr_P_-_Look_Into_My_Eyes.mp3
+064.    4.51 MB | /data/data/com.termux/files/home/storage/shared/Download/Phyno-ft.-Wale-N.W.A-2.mp3
+065.    5.13 MB | /data/data/com.termux/files/home/storage/shared/Download/Popcaan - El Chapo (Audio)-1.mp3
+066.    1.77 MB | /data/data/com.termux/files/home/storage/shared/Download/Popcaan_feat_Davido_My_Story.mp3
+067.    2.35 MB | /data/data/com.termux/files/home/storage/shared/Download/PopCaan_Home_Made.mp3
+068.    2.02 MB | /data/data/com.termux/files/home/storage/shared/Download/popcaan_inna_di_lobby_raw_after_part_riddim_june_2015_aac_82284.mp3
+069.    2.72 MB | /data/data/com.termux/files/home/storage/shared/Download/Popcaan_Mama_Pray_Fa_Me.mp3
+070.    3.46 MB | /data/data/com.termux/files/home/storage/shared/Download/Popcaan_Tight_Pussy_Wine_Best_Position_Riddim.mp3
+071.    2.63 MB | /data/data/com.termux/files/home/storage/shared/Download/Popcaan_–_Weed_Is_My_Best_Frie(Naijasolid.com).mp3
+072.    4.51 MB | /data/data/com.termux/files/home/storage/shared/Download/QUEEN  ft Judy Yo & Jusstine Gynks_Elena.mp3
+073.    3.73 MB | /data/data/com.termux/files/home/storage/shared/Download/Raywise (Diana) ft Queen [officialAudio].mp3
+074.    3.11 MB | /data/data/com.termux/files/home/storage/shared/Download/Sean_Kingston_Ft_TI_Back_2_Life.mp3
+075.    3.82 MB | /data/data/com.termux/files/home/storage/shared/Download/So_Lucky_-_Chile_One_MrZambia_Official_Music_Video_(256k).mp3
+076.    4.31 MB | /data/data/com.termux/files/home/storage/shared/Download/Vacancy_-_Chile_One_MrZambia_Ft_Frank_Ro__Official_Visualizer_(256k).mp3
+077.    4.50 MB | /data/data/com.termux/files/home/storage/shared/Download/Vybz-Kartel-My-Heaven-My-Hell-May-2015.mp3
+078.    1.17 MB | /data/data/com.termux/files/home/storage/shared/Download/Vybz_Kartel_School.mp3
+079.    3.67 MB | /data/data/com.termux/files/home/storage/shared/Download/Wande_Coal_-_So_Mi_So.mp3
+080.    3.50 MB | /data/data/com.termux/files/home/storage/shared/Download/Wiz_Khalifa_feat_Charlie_Puth_See_You_Again_Furious_7_Soundtrack.mp3
+081.    5.88 MB | /data/data/com.termux/files/home/storage/shared/Download/WSTRN - In2 Official Video.mp3
+082.    4.01 MB | /data/data/com.termux/files/home/storage/shared/Download/Young swizzy ft el madu gb y.mp3
+083.    3.34 MB | /data/data/com.termux/files/home/storage/shared/Download/YOUNG-T ft B-S-B=lucifer.mp3
+084.    2.24 MB | /data/data/com.termux/files/home/storage/shared/Download/young_thug_power_mp3_26570.mp3
+085.    0.02 MB | /data/data/com.termux/files/home/storage/shared/Music/PhoneRecord/260573274712/20260927_100408.aac
+086.    0.50 MB | /data/data/com.termux/files/home/storage/shared/Music/PhoneRecord/260766607476/20261001_084222.aac
+087.    3.08 MB | /data/data/com.termux/files/home/storage/shared/Music/PhoneRecord/260972414181/20260805_193126.aac
+088.    0.03 MB | /data/data/com.termux/files/home/storage/shared/Music/PhoneRecord/260978391075/20261012_152317.aac
+089.   19.45 MB | /data/data/com.termux/files/home/storage/shared/Music/SoundRecorder/20261020_195856.aac

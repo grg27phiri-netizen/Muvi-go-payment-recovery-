@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101015">
+<title>MUVI GO Studio</title>
+<link rel="stylesheet" href="/static/styles.css?v=studio3">
+
+<style>
+.admin-page {
+  background:#101015;
+  color:#fff;
+  margin:0;
+  font-family:Arial,sans-serif;
+}
+.studio-header {
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:#15151c;
+  padding:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #38302a;
+}
+.studio-brand {color:#fff;text-decoration:none;font-weight:bold}
+.studio-brand b {color:#e7ad42}
+.studio-brand span {color:#b9a17a;font-size:11px}
+.studio-header nav a {color:#e7ad42;text-decoration:none}
+.studio-main {
+  width:min(100%,850px);
+  margin:auto;
+  padding:18px 14px 35px;
+  box-sizing:border-box;
+}
+.studio-welcome {
+  background:linear-gradient(135deg,#262016,#15151c 70%);
+  padding:24px 18px;
+  border:1px solid #594321;
+  border-radius:17px;
+}
+.studio-eyebrow {
+  color:#e7ad42;
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:2px;
+}
+.studio-welcome h1 {font-size:27px;margin:10px 0}
+.studio-muted {color:#aaa;font-size:13px;line-height:1.6}
+.studio-badge {
+  display:inline-block;
+  background:#493619;
+  color:#ffd27b;
+  padding:7px 12px;
+  border-radius:20px;
+  font-size:11px;
+}
+.studio-stats {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
+  margin:18px 0;
+}
+.studio-stat {
+  background:#1b1b23;
+  border:1px solid #343039;
+  padding:17px 13px;
+  border-radius:14px;
+}
+.studio-stat span {display:block;color:#aaa;font-size:12px}
+.studio-stat strong {
+  display:block;
+  color:#f2bd58;
+  font-size:25px;
+  margin:9px 0;
+}
+.studio-stat small {color:#888;font-size:10px}
+.studio-shortcuts {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin-bottom:22px;
+}
+.studio-shortcuts a {
+  background:#1d1c23;
+  border:1px solid #383039;
+  padding:17px 13px;
+  border-radius:13px;
+  color:#f2bd58;
+  text-decoration:none;
+  font-size:14px;
+}
+.studio-shortcuts small {
+  display:block;
+  color:#999;
+  margin-top:8px;
+  font-size:11px;
+}
+.studio-panel {
+  background:#191920;
+  border:1px solid #353039;
+  padding:18px 14px;
+  border-radius:16px;
+  margin:18px 0;
+}
+.studio-panel h2 {font-size:19px}
+.studio-form {display:grid;gap:15px}
+.studio-form label {font-size:13px;color:#ddd}
+.studio-form input,
+.studio-form select,
+.studio-form textarea {
+  display:block;
+  width:100%;
+  box-sizing:border-box;
+  margin-top:8px;
+  padding:14px;
+  border:1px solid #45404a;
+  border-radius:10px;
+  background:#101015;
+  color:white;
+  font-size:14px;
+}
+.studio-form textarea {min-height:85px;resize:vertical}
+.studio-button {
+  background:#dca63f;
+  color:#17120a;
+  border:0;
+  border-radius:11px;
+  padding:15px;
+  width:100%;
+  font-weight:bold;
+  font-size:14px;
+}
+.studio-button:disabled {opacity:.5}
+#studioMessage {font-size:12px;color:#f2bd58}
+.studio-search {
+  width:100%;
+  box-sizing:border-box;
+  padding:14px;
+  background:#101015;
+  border:1px solid #45404a;
+  border-radius:10px;
+  color:white;
+  margin:10px 0;
+}
+.studio-filters {
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:7px 0 13px;
+}
+.studio-filter {
+  flex:0 0 auto;
+  padding:10px 14px;
+  border:1px solid #514638;
+  background:#222127;
+  color:#ddd;
+  border-radius:20px;
+}
+.studio-filter.active {
+  background:#dca63f;
+  color:#17120a;
+}
+.studio-media-grid {display:grid;gap:10px}
+.studio-media-card {
+  display:flex;
+  align-items:center;
+  gap:13px;
+  background:#222129;
+  border:1px solid #39343c;
+  border-radius:12px;
+  padding:13px;
+}
+.studio-poster {
+  width:65px;
+  height:75px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(145deg,#493719,#18171e);
+  color:#f4c365;
+  font-size:10px;
+  font-weight:bold;
+  border-radius:9px;
+}
+.studio-media-info {min-width:0}
+.studio-media-info h3 {
+  font-size:14px;
+  margin:0 0 7px;
+  overflow-wrap:anywhere;
+}
+.studio-media-info p {font-size:11px;color:#aaa;margin:5px 0}
+.studio-status {font-size:10px;color:#e7ad42}
+.studio-empty {
+  text-align:center;
+  padding:25px 10px;
+  color:#aaa;
+}
+.studio-footer {
+  text-align:center;
+  padding:25px 10px;
+  color:#888;
+  font-size:11px;
+  line-height:2;
+}
+[hidden] {display:none!important}
+@media(min-width:650px) {
+  .studio-stats {grid-template-columns:repeat(3,1fr)}
+  .studio-media-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+</style>
+</head>
+
+<body class="admin-page">
+
+<header class="studio-header">
+  <a class="studio-brand" href="/">
+    MUVI <b>GO</b> <span>STUDIO</span>
+  </a>
+  <nav><a href="/">← Back to TV</a></nav>
+</header>
+
+<main class="studio-main">
+
+<section class="studio-welcome">
+  <p class="studio-eyebrow">CONTENT MANAGEMENT</p>
+  <h1>Studio Dashboard</h1>
+  <p class="studio-muted">
+    Your MUVI GO content management centre.
+  </p>
+  <span class="studio-badge">ADMIN CONTROL PANEL</span>
+</section>
+
+<section class="studio-stats">
+  <article class="studio-stat">
+    <span>Total catalogue</span>
+    <strong>{{ media|length }}</strong>
+    <small>All media records</small>
+  </article>
+
+  <article class="studio-stat">
+    <span>Published</span>
+    <strong>{{ media|selectattr('status','equalto','PUBLISHED')|list|length }}</strong>
+    <small>Published records</small>
+  </article>
+
+  <article class="studio-stat">
+    <span>Pending review</span>
+    <strong>{{ media|selectattr('status','equalto','PENDING')|list|length }}</strong>
+    <small>Awaiting administrator review</small>
+  </article>
+
+  <article class="studio-stat">
+    <span>Rights check</span>
+    <strong>{{ media|selectattr('status','equalto','RIGHTS_CHECK')|list|length }}</strong>
+    <small>Rights verification required</small>
+  </article>
+</section>
+
+<section class="studio-shortcuts">
+  <a href="#media-library">
+    ▤ &nbsp; Media Library
+    <small>Browse and search content</small>
+  </a>
+
+  <a href="#add-content">
+    ＋ &nbsp; Add Content
+    <small>Create catalogue records</small>
+  </a>
+
+  <a href="#dashboard-overview">
+    ◈ &nbsp; Overview
+    <small>Catalogue statistics</small>
+  </a>
+
+  <a href="/">
+    ▶ &nbsp; Open MUVI GO
+    <small>Return to entertainment app</small>
+  </a>
+</section>
+
+<section class="studio-panel" id="add-content">
+  <p class="studio-eyebrow">CONTENT CONTROL</p>
+  <h2>Add New Content</h2>
+
+  <p class="studio-muted">
+    Only add content you are authorised to manage.
+    A published record does not establish streaming rights.
+  </p>
+
+  <form id="add" class="studio-form">
+
+    <label>
+      Content title
+      <input name="title" maxlength="200"
+             placeholder="Enter content title" required>
+    </label>
+
+    <label>
+      Content type
+      <select name="type" required>
+        <option value="movie">Movie</option>
+        <option value="series">Series</option>
+        <option value="music">Music</option>
+        <option value="documentary">Documentary</option>
+      </select>
+    </label>
+
+    <label>
+      Category
+      <input name="category" maxlength="100"
+             value="Zambian Content">
+    </label>
+
+    <label>
+      Description
+      <textarea name="description" maxlength="2000"
+        placeholder="Enter content description"></textarea>
+    </label>
+
+    <button class="studio-button" type="submit">
+      ＋ ADD TO CATALOGUE
+    </button>
+
+    <span id="studioMessage" role="status"
+          aria-live="polite"></span>
+  </form>
+</section>
+
+<section class="studio-panel" id="media-library">
+
+  <p class="studio-eyebrow">CONTENT INVENTORY</p>
+  <h2>Media Library</h2>
+  <p class="studio-muted">
+    Search and filter your existing catalogue.
+  </p>
+
+  <input id="mediaSearch" class="studio-search"
+         type="search" placeholder="Search titles or categories...">
+
+  <div class="studio-filters">
+    <button type="button" class="studio-filter active"
+            data-filter="all">All</button>
+    <button type="button" class="studio-filter"
+            data-filter="movie">Movies</button>
+    <button type="button" class="studio-filter"
+            data-filter="series">Series</button>
+    <button type="button" class="studio-filter"
+            data-filter="music">Music</button>
+    <button type="button" class="studio-filter"
+            data-filter="documentary">Documentaries</button>
+  </div>
+
+  <div class="studio-media-grid" id="mediaGrid">
+
+    {% for m in media %}
+    <article class="studio-media-card"
+      data-id="{{ m.id }}"
+      data-title="{{ m.title|e }}"
+      data-category="{{ (m.category or '')|e }}"
+      data-description="{{ (m.description or '')|e }}"
+      data-status="{{ m.status|e }}"
+      data-type="{{ m.type|lower }}"
+      data-search="{{ (m.title ~ ' ' ~ (m.category or '') ~ ' ' ~ (m.description or ''))|lower }}">
+
+      <div class="studio-poster">
+        {{ m.type|upper }}
+      </div>
+
+      <div class="studio-media-info">
+        <h3>{{ m.title }}</h3>
+        <p>{{ m.category or 'Uncategorised' }}</p>
+        <span class="studio-status">{{ m.status }}</span>
+        <p>{{ m.year }} · {{ m.views }} views</p>
+        <div class="studio-card-actions">
+          <button type="button" class="studio-button edit-media">EDIT</button>
+          <button type="button" class="studio-button delete-media">DELETE</button>
+        </div>
+      </div>
+
+    </article>
+    {% endfor %}
+
+  </div>
+
+  <section class="studio-panel" id="editMediaPanel" hidden>
+    <p class="studio-eyebrow">MEDIA MANAGEMENT</p>
+    <h2>Edit Content</h2>
+
+    <form id="editMediaForm" class="studio-form">
+      <input type="hidden" name="id">
+
+      <label>Content title
+        <input name="title" maxlength="200" required>
+      </label>
+
+      <label>Content type
+        <select name="type" required>
+          <option value="movie">Movie</option>
+          <option value="series">Series</option>
+          <option value="music">Music</option>
+          <option value="documentary">Documentary</option>
+        </select>
+      </label>
+
+      <label>Category
+        <input name="category" maxlength="100">
+      </label>
+
+      <label>Description
+        <textarea name="description" maxlength="2000"></textarea>
+      </label>
+
+      <label>Content status
+        <select name="status">
+          <option value="PENDING">Pending</option>
+          <option value="PUBLISHED">Published</option>
+          <option value="INACTIVE">Inactive</option>
+          <option value="RIGHTS_CHECK">Rights Check</option>
+          <option value="CONTENT_NEEDED">Content Needed</option>
+          <option value="VOD_PENDING">VOD Pending</option>
+        </select>
+      </label>
+
+      <button class="studio-button" type="submit">SAVE CHANGES</button>
+      <button class="studio-button" type="button" id="cancelMediaEdit">CANCEL</button>
+      <span id="editMediaMessage" role="status" aria-live="polite"></span>
+    </form>
+  </section>
+
+  <div id="noResults" class="studio-empty" hidden>
+    <h3>No matching content</h3>
+    <p>Try another search or category.</p>
+  </div>
+
+  {% if not media %}
+  <div class="studio-empty">
+    <h3>Your media library is empty</h3>
+    <p>Add your first authorised content record above.</p>
+  </div>
+  {% endif %}
+
+</section>
+
+<footer class="studio-footer">
+  MUVI GO Studio · GP Creations © 2026
+  <br>
+  Prototype status is not rights clearance.
+</footer>
+
+</main>
+
+<script>
+(function() {
+  const form = document.getElementById("add");
+  const message = document.getElementById("studioMessage");
+  const search = document.getElementById("mediaSearch");
+  const cards = [...document.querySelectorAll(".studio-media-card")];
+  const filters = [...document.querySelectorAll(".studio-filter")];
+  const noResults = document.getElementById("noResults");
+
+  let activeFilter = "all";
+
+  function filterMedia() {
+    const query = search.value.trim().toLowerCase();
+    let visible = 0;
+
+    cards.forEach(card => {
+      const matchesType =
+        activeFilter === "all" ||
+        card.dataset.type === activeFilter;
+
+      const matchesSearch =
+        card.dataset.search.includes(query);
+
+      const show = matchesType && matchesSearch;
+      card.hidden = !show;
+
+      if (show) visible++;
+    });
+
+    noResults.hidden = visible !== 0;
+  }
+
+  search.addEventListener("input", filterMedia);
+
+  filters.forEach(button => {
+    button.addEventListener("click", () => {
+      activeFilter = button.dataset.filter;
+
+      filters.forEach(item =>
+        item.classList.toggle("active", item === button)
+      );
+
+      filterMedia();
+    });
+  });
+
+
+  // Media editing and deletion.
+  const mediaGrid = document.getElementById("mediaGrid");
+  const editPanel = document.getElementById("editMediaPanel");
+  const editForm = document.getElementById("editMediaForm");
+  const editMessage = document.getElementById("editMediaMessage");
+
+  function closeEditor() {
+    editPanel.hidden = true;
+    editForm.reset();
+    editMessage.textContent = "";
+  }
+
+  document.getElementById("cancelMediaEdit").addEventListener("click", closeEditor);
+
+  mediaGrid.addEventListener("click", async function(event) {
+    const editButton = event.target.closest(".edit-media");
+    const deleteButton = event.target.closest(".delete-media");
+
+    if (!editButton && !deleteButton) return;
+
+    const card = event.target.closest(".studio-media-card");
+    if (!card) return;
+
+    const id = card.dataset.id;
+
+    if (editButton) {
+      editForm.elements.id.value = id;
+      editForm.elements.title.value = card.dataset.title;
+      editForm.elements.type.value = card.dataset.type;
+      editForm.elements.category.value = card.dataset.category;
+      editForm.elements.description.value = card.dataset.description;
+      editForm.elements.status.value = card.dataset.status.toUpperCase();
+
+      editMessage.textContent = "";
+      editPanel.hidden = false;
+      editPanel.scrollIntoView({behavior: "smooth", block: "start"});
+    }
+
+    if (deleteButton) {
+      if (!window.confirm("Permanently delete this media record? This cannot be undone.")) return;
+
+      deleteButton.disabled = true;
+
+      try {
+        const response = await fetch("/api/media/" + encodeURIComponent(id), {
+          method: "DELETE"
+        });
+        const result = await response.json();
+
+        if (!response.ok) {
+          window.alert(result.error || "Unable to delete content.");
+          return;
+        }
+
+        window.location.reload();
+      } catch (_) {
+        window.alert("Connection error. Please try again.");
+      } finally {
+        deleteButton.disabled = false;
+      }
+    }
+  });
+
+  editForm.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const button = editForm.querySelector('button[type="submit"]');
+    const id = editForm.elements.id.value;
+    button.disabled = true;
+    editMessage.textContent = "Saving changes...";
+
+    try {
+      const payload = {
+        title: editForm.elements.title.value,
+        type: editForm.elements.type.value,
+        category: editForm.elements.category.value,
+        description: editForm.elements.description.value,
+        status: editForm.elements.status.value
+      };
+
+      const response = await fetch("/api/media/" + encodeURIComponent(id), {
+        method: "PATCH",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        editMessage.textContent = result.error || "Unable to update content.";
+        return;
+      }
+
+      editMessage.textContent = "Changes saved. Refreshing...";
+      window.location.reload();
+
+    } catch (_) {
+      editMessage.textContent = "Connection error. Please try again.";
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  form.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const button = form.querySelector("button[type=submit]");
+    button.disabled = true;
+    message.textContent = "Saving content...";
+
+    try {
+      const response = await fetch("/api/media", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(
+          Object.fromEntries(new FormData(form))
+        )
+      });
+
+      let result = {};
+
+      try {
+        result = await response.json();
+      } catch (_) {}
+
+      if (!response.ok) {
+        message.textContent =
+          result.error || "Unable to save. Check admin permissions.";
+        return;
+      }
+
+      message.textContent = "Content added successfully.";
+      window.location.reload();
+
+    } catch (error) {
+      message.textContent =
+        "Connection error. Please try again.";
+    } finally {
+      button.disabled = false;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

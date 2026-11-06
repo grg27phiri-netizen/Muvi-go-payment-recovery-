@@ -1,0 +1,94 @@
+==========================================
+          MUVI GO V6 FULL BUILD
+          GP CREATIONS
+==========================================
+
+1. DATABASE CHECKPOINT
+DATABASE CHECKPOINT: PASS
+
+2. PROJECT IDENTITY
+IDENTITY: PASS
+
+3. PYTHON COMPILATION
+PYTHON: PASS
+
+4. REGRESSION TESTS
+test_accepts_valid_media (test_app.MuviGoSmokeTests.test_accepts_valid_media) ... ok
+test_admin_dashboard_shows_workflow_statistics (test_app.MuviGoSmokeTests.test_admin_dashboard_shows_workflow_statistics) ... ok
+test_health_endpoint (test_app.MuviGoSmokeTests.test_health_endpoint) ... ok
+test_home_is_muvi_go_and_has_channel_ui (test_app.MuviGoSmokeTests.test_home_is_muvi_go_and_has_channel_ui) ... ok
+test_rejects_blank_media_title (test_app.MuviGoSmokeTests.test_rejects_blank_media_title) ... ok
+test_rejects_unknown_media_type (test_app.MuviGoSmokeTests.test_rejects_unknown_media_type) ... ok
+test_search_endpoint (test_app.MuviGoSmokeTests.test_search_endpoint) ... ok
+test_v5_admin_can_delete_media_and_missing_id_is_rejected (test_app.MuviGoSmokeTests.test_v5_admin_can_delete_media_and_missing_id_is_rejected) ... ok
+test_v5_admin_can_edit_media_and_reject_missing_id (test_app.MuviGoSmokeTests.test_v5_admin_can_edit_media_and_reject_missing_id) ... ok
+test_v5_admin_dashboard_requires_login (test_app.MuviGoSmokeTests.test_v5_admin_dashboard_requires_login) ... ok
+test_v5_dashboard_exposes_management_controls (test_app.MuviGoSmokeTests.test_v5_dashboard_exposes_management_controls) ... ok
+test_duplicate_email_rejected_case_insensitively (test_auth.MuviGoAuthTests.test_duplicate_email_rejected_case_insensitively) ... ok
+test_invalid_login_rejected (test_auth.MuviGoAuthTests.test_invalid_login_rejected) ... ok
+test_invalid_registration_input_rejected (test_auth.MuviGoAuthTests.test_invalid_registration_input_rejected) ... ok
+test_login_and_logout (test_auth.MuviGoAuthTests.test_login_and_logout) ... ok
+test_password_is_hashed_in_database (test_auth.MuviGoAuthTests.test_password_is_hashed_in_database) ... ok
+test_register_creates_account_and_session (test_auth.MuviGoAuthTests.test_register_creates_account_and_session) ... ok
+test_short_password_rejected (test_auth.MuviGoAuthTests.test_short_password_rejected) ... ok
+test_invalid_amount_values_are_rejected (test_payment_confirmation.PaymentConfirmationTests.test_invalid_amount_values_are_rejected) ... ok
+test_no_public_confirmation_route_exists (test_payment_confirmation.PaymentConfirmationTests.test_no_public_confirmation_route_exists) ... ok
+test_one_provider_transaction_cannot_be_reused (test_payment_confirmation.PaymentConfirmationTests.test_one_provider_transaction_cannot_be_reused) ... ok
+test_repeated_confirmation_does_not_duplicate_subscription (test_payment_confirmation.PaymentConfirmationTests.test_repeated_confirmation_does_not_duplicate_subscription) ... ok
+test_subscription_insert_failure_rolls_back_payment (test_payment_confirmation.PaymentConfirmationTests.test_subscription_insert_failure_rolls_back_payment) ... ok
+test_verified_confirmation_activates_once (test_payment_confirmation.PaymentConfirmationTests.test_verified_confirmation_activates_once) ... ok
+test_wrong_amount_does_not_activate (test_payment_confirmation.PaymentConfirmationTests.test_wrong_amount_does_not_activate) ... ok
+test_wrong_currency_does_not_activate (test_payment_confirmation.PaymentConfirmationTests.test_wrong_currency_does_not_activate) ... ok
+test_wrong_provider_does_not_activate (test_payment_confirmation.PaymentConfirmationTests.test_wrong_provider_does_not_activate) ... ok
+test_zero_row_payment_update_does_not_activate_subscription (test_payment_confirmation.PaymentConfirmationTests.test_zero_row_payment_update_does_not_activate_subscription) ... ok
+test_customer_cannot_initiate_for_another_user (test_payments_recovery.PaymentRecoveryTests.test_customer_cannot_initiate_for_another_user) ... ok
+test_invalid_plan_rejected (test_payments_recovery.PaymentRecoveryTests.test_invalid_plan_rejected) ... ok
+test_invalid_provider_rejected (test_payments_recovery.PaymentRecoveryTests.test_invalid_provider_rejected) ... ok
+test_invalid_user_id_types_rejected (test_payments_recovery.PaymentRecoveryTests.test_invalid_user_id_types_rejected) ... ok
+test_non_object_json_rejected (test_payments_recovery.PaymentRecoveryTests.test_non_object_json_rejected) ... ok
+test_non_string_plan_and_provider_rejected (test_payments_recovery.PaymentRecoveryTests.test_non_string_plan_and_provider_rejected) ... ok
+test_payment_initiation_requires_login (test_payments_recovery.PaymentRecoveryTests.test_payment_initiation_requires_login) ... ok
+test_plan_catalogue (test_payments_recovery.PaymentRecoveryTests.test_plan_catalogue) ... ok
+test_readiness_does_not_claim_live_provider (test_payments_recovery.PaymentRecoveryTests.test_readiness_does_not_claim_live_provider) ... ok
+test_unknown_user_rejected (test_payments_recovery.PaymentRecoveryTests.test_unknown_user_rejected) ... ok
+test_valid_payment_remains_pending_without_subscription (test_payments_recovery.PaymentRecoveryTests.test_valid_payment_remains_pending_without_subscription) ... ok
+
+----------------------------------------------------------------------
+Ran 39 tests in 87.778s
+
+OK
+REGRESSION: PASS
+
+5. MEDIA ROUTE CHECK
+MEDIA TEST FILES: PASS
+
+6. ANDROID BUILD ENVIRONMENT
+/data/data/com.termux/files/usr/bin/java
+openjdk version "21.0.11" 2026-04-21
+OpenJDK Runtime Environment (build 21.0.11)
+gradle: MISSING
+aapt: AVAILABLE
+aapt2: AVAILABLE
+d8: AVAILABLE
+apksigner: AVAILABLE
+zipalign: AVAILABLE
+
+7. ANDROID SDK CHECK
+ANDROID SDK: NOT CONFIGURED
+
+8. ANDROID PROJECT CHECK
+APK BUILD BLOCKED: ANDROID PROJECT/GRADLE WRAPPER MISSING
+
+9. FINAL STATUS
+Project: MUVI GO V6
+Owner/operator: GP Creations
+Regression: PASS
+Production streams: NOT VERIFIED
+Live payments: NOT CONNECTED
+DRM: NOT IMPLEMENTED
+APK: SEE ANDROID BUILD RESULT
+
+REPORT: FULL_BUILD_REPORT_20261105_172636.txt
+==========================================
+          INSPECTION FINISHED
+==========================================

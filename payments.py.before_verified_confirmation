@@ -1,0 +1,90 @@
+import sqlite3
+import uuid
+from flask import Blueprint, current_app, jsonify, request
+
+payments_bp = Blueprint("payments", __name__)
+
+PLANS = {
+    "weekly": {"amount": 10, "days": 7},
+    "monthly": {"amount": 30, "days": 30},
+    "annual": {"amount": 300, "days": 365},
+}
+PROVIDERS = {"mtn_momo", "airtel_money"}
+
+
+def connect_db():
+    conn = sqlite3.connect(current_app.config["DATABASE_PATH"])
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+@payments_bp.get("/api/payment/plans")
+def payment_plans():
+    return jsonify({
+        "currency": "ZMW",
+        "plans": [
+            {"id": key, **value}
+            for key, value in PLANS.items()
+        ],
+    })
+
+
+@payments_bp.get("/api/payments/readiness")
+def payment_readiness():
+    return jsonify({
+        "mode": "sandbox_only",
+        "payment_initiation": True,
+        "live_provider_connected": False,
+        "automatic_subscription_activation": False,
+    })
+
+
+@payments_bp.post("/api/payments/initiate")
+def initiate_payment():
+    data = request.get_json(silent=True) or {}
+
+    plan = data.get("plan")
+    provider = data.get("provider")
+    user_id = data.get("user_id")
+
+    if plan not in PLANS:
+        return jsonify({"ok": False, "error": "invalid_plan"}), 400
+
+    if provider not in PROVIDERS:
+        return jsonify({"ok": False, "error": "invalid_provider"}), 400
+
+    try:
+        user_id = int(user_id)
+        if user_id < 1:
+            raise ValueError
+    except (TypeError, ValueError):
+        return jsonify({"ok": False, "error": "invalid_user"}), 400
+
+    conn = connect_db()
+    try:
+        user = conn.execute(
+            "SELECT id FROM users WHERE id = ?", (user_id,)
+        ).fetchone()
+
+        if user is None:
+            return jsonify({"ok": False, "error": "unknown_user"}), 404
+
+        payment_ref = uuid.uuid4().hex
+        conn.execute(
+            """INSERT INTO payments
+               (payment_ref, user_id, provider, plan, amount, status)
+               VALUES (?, ?, ?, ?, ?, 'pending')""",
+            (payment_ref, user_id, provider, plan, PLANS[plan]["amount"]),
+        )
+        conn.commit()
+
+        return jsonify({
+            "ok": True,
+            "payment_ref": payment_ref,
+            "amount": PLANS[plan]["amount"],
+            "currency": "ZMW",
+            "status": "pending",
+            "message": "Sandbox record created; no subscription activated.",
+        }), 202
+    finally:
+        conn.close()
