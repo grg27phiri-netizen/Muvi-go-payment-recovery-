@@ -143,11 +143,29 @@ class MuviGoLiveTVAdminTests(unittest.TestCase):
         )
         self.assertEqual(url_added.json["channel"]["is_active"], 0)
 
-        verified = self.admin_client.patch(
+        missing_evidence = self.admin_client.patch(
             f"/api/admin/channels/{channel_pk}",
             json={"feed_status": "verified"},
         )
+        self.assertEqual(missing_evidence.status_code, 409)
+        self.assertEqual(
+            missing_evidence.json["error"],
+            "feed_verification_evidence_required",
+        )
+
+        verified = self.admin_client.patch(
+            f"/api/admin/channels/{channel_pk}",
+            json={
+                "feed_status": "verified",
+                "feed_verification_method": "manual_playback",
+                "feed_verification_notes": "Administrator manually confirmed playback.",
+            },
+        )
         self.assertEqual(verified.status_code, 200)
+        self.assertEqual(
+            verified.json["channel"]["feed_verification_method"],
+            "manual_playback",
+        )
 
         activated = self.admin_client.patch(
             f"/api/admin/channels/{channel_pk}",
@@ -288,6 +306,32 @@ class MuviGoLiveTVAdminTests(unittest.TestCase):
         channel = next(
             item for item in response.json
             if item["id"] == "test-channel"
+        )
+        self.assertFalse(channel["available"])
+        self.assertIsNone(channel["stream_url"])
+
+    def test_public_api_requires_manual_verification_evidence(self):
+        created = self.create_channel()
+        self.assertEqual(created.status_code, 201)
+
+        conn = application.db()
+        try:
+            conn.execute(
+                """
+                UPDATE live_channels
+                SET stream_url = ?, authorization_status = 'authorized',
+                    feed_status = 'verified', is_active = 1
+                WHERE channel_id = ?
+                """,
+                ("https://streams.example.test/live.m3u8", "test-channel"),
+            )
+            conn.commit()
+        finally:
+            conn.close()
+
+        response = self.admin_client.get("/api/channels")
+        channel = next(
+            item for item in response.json if item["id"] == "test-channel"
         )
         self.assertFalse(channel["available"])
         self.assertIsNone(channel["stream_url"])

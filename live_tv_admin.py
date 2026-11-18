@@ -29,6 +29,8 @@ TEXT_LIMITS = {
     "rights_holder": 160,
     "authorization_reference": 500,
     "authorization_notes": 2000,
+    "feed_verification_method": 40,
+    "feed_verification_notes": 1000,
 }
 
 
@@ -43,6 +45,8 @@ def init_live_tv_schema(conn):
         "authorization_checked_by": "INTEGER",
         "feed_checked_at": "TEXT",
         "feed_checked_by": "INTEGER",
+        "feed_verification_method": "TEXT",
+        "feed_verification_notes": "TEXT",
         "created_by": "INTEGER",
         "updated_by": "INTEGER",
     }
@@ -391,6 +395,12 @@ def admin_update_channel(channel_pk):
 
             value = value.strip()
 
+            if (
+                field == "feed_verification_method"
+                and value != "manual_playback"
+            ):
+                return _error("invalid_feed_verification_method", 400)
+
             if len(value) > maximum:
                 return _error(field + "_too_long", 400)
 
@@ -471,6 +481,8 @@ def admin_update_channel(channel_pk):
             state["feed_status"] = "not_verified"
             state["feed_checked_at"] = None
             state["feed_checked_by"] = None
+            state["feed_verification_method"] = None
+            state["feed_verification_notes"] = None
             state["is_active"] = 0
 
         # A changed stream URL must be checked again before it can be used.
@@ -478,11 +490,15 @@ def admin_update_channel(channel_pk):
             state["feed_status"] = "not_verified"
             state["feed_checked_at"] = None
             state["feed_checked_by"] = None
+            state["feed_verification_method"] = None
+            state["feed_verification_notes"] = None
             state["is_active"] = 0
 
         # An unapproved or rejected channel cannot retain a verified active feed.
         if state["authorization_status"] != "authorized":
             state["feed_status"] = "not_verified"
+            state["feed_verification_method"] = None
+            state["feed_verification_notes"] = None
             state["is_active"] = 0
 
         if (
@@ -495,11 +511,31 @@ def admin_update_channel(channel_pk):
             return _error("authorization_evidence_required", 409)
 
         if state["feed_status"] == "verified":
+            if (
+                "feed_status" in supplied
+                and supplied["feed_status"] == "verified"
+            ):
+                required_evidence = {
+                    "feed_verification_method",
+                    "feed_verification_notes",
+                }
+                if not required_evidence.issubset(data):
+                    return _error("feed_verification_evidence_required", 409)
+                if (
+                    state.get("feed_verification_method") != "manual_playback"
+                    or not state.get("feed_verification_notes")
+                ):
+                    return _error("feed_verification_evidence_required", 409)
+
             if state["authorization_status"] != "authorized":
                 return _error("channel_not_authorized", 409)
 
             if not _valid_stream_url(state.get("stream_url")):
                 return _error("verified_stream_url_required", 409)
+
+        if state["feed_status"] != "verified":
+            state["feed_verification_method"] = None
+            state["feed_verification_notes"] = None
 
         if state["is_active"] == 1:
             if not (
@@ -552,6 +588,8 @@ def admin_update_channel(channel_pk):
             "authorization_checked_by",
             "feed_checked_at",
             "feed_checked_by",
+            "feed_verification_method",
+            "feed_verification_notes",
             "updated_by",
         ]
 
@@ -576,6 +614,15 @@ def admin_update_channel(channel_pk):
             {
                 "authorization_status": state["authorization_status"],
                 "feed_status": state["feed_status"],
+                "feed_verification_method": state.get("feed_verification_method"),
+                "verification_evidence_recorded": bool(
+                    state.get("feed_verification_notes")
+                ),
+                "feed_verification_notes": (
+                    state.get("feed_verification_notes")
+                    if supplied.get("feed_status") == "verified"
+                    else None
+                ),
                 "is_active": state["is_active"],
                 "rights_record_changed": rights_changed,
                 "stream_url_changed": stream_changed,

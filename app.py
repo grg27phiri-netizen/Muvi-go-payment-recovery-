@@ -277,7 +277,8 @@ def channels_api():
     try:
         rows = c.execute("""
             SELECT channel_id, name, category, icon, stream_url,
-                   stream_type, authorization_status, feed_status, is_active
+                   stream_type, authorization_status, feed_status, is_active,
+                   feed_verification_method, feed_verification_notes
             FROM live_channels
             ORDER BY id
         """).fetchall()
@@ -290,6 +291,8 @@ def channels_api():
         playable = (
             row["authorization_status"] == "authorized"
             and row["feed_status"] == "verified"
+            and row["feed_verification_method"] == "manual_playback"
+            and bool(row["feed_verification_notes"])
             and row["is_active"] == 1
             and row["stream_type"] == "hls"
             and _valid_stream_url(url)
