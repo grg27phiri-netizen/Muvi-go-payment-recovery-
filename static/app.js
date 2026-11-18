@@ -60,25 +60,110 @@ const video=document.getElementById("liveVideo"), placeholder=document.getElemen
 placeholder.classList.add("hidden");
 function say(message){toast.textContent=message;toast.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>toast.classList.remove("show"),2600)}
 function saved(){try{return JSON.parse(localStorage.getItem("muviGoSaved")||"[]")}catch{return []}}
-function stopStream(){if(hls){hls.destroy();hls=null}video.pause();video.removeAttribute("src");video.load();placeholder.classList.add("hidden")}
-function selectChannel(c){
- currentChannel=c;document.getElementById("nowTitle").textContent=`${c.category} • ${c.name}`;document.getElementById("nowSubtitle").textContent="Zambia • Live TV & On-Demand";
- stopStream();
- statusLabel.textContent="SELECTED: " + c.name.toUpperCase();
- placeholder.innerHTML="";
- const url=c.available === true ? c.stream_url : null;
- if(!url){placeholder.classList.add("hidden");statusLabel.textContent="";document.getElementById("qualityLabel").textContent="";return}
- placeholder.classList.add("hidden");statusLabel.textContent="CONNECTING…";
- if(window.Hls&&Hls.isSupported()){
-   hls=new Hls({enableWorker:true,lowLatencyMode:true,capLevelToPlayerSize:true,backBufferLength:30});
-   hls.loadSource(url);hls.attachMedia(video);
-   hls.on(Hls.Events.MANIFEST_PARSED,()=>{statusLabel.textContent="LIVE STREAM";document.getElementById("qualityLabel").textContent="Adaptive bitrate enabled";video.play().catch(()=>say("Press play to begin streaming."))});
-   hls.on(Hls.Events.ERROR,(_,data)=>{if(data.fatal){statusLabel.textContent="STREAM ERROR";say("Unable to play this feed. Check the authorised stream URL and server CORS settings.");hls.destroy();hls=null}});
- }else if(video.canPlayType("application/vnd.apple.mpegurl")){
-   video.src=url;video.addEventListener("loadedmetadata",()=>{statusLabel.textContent="LIVE STREAM";video.play().catch(()=>{})},{once:true});
- }else{statusLabel.textContent="PLAYER UNSUPPORTED";say("This browser does not support HLS playback. Try a supported modern browser.");}
- document.getElementById("livePanel").scrollIntoView({behavior:"smooth",block:"start"});
+let playbackGeneration = 0;
+
+function stopStream(){
+ playbackGeneration++;
+
+ if(hls){
+   hls.destroy();
+   hls=null;
+ }
+
+ video.onloadedmetadata=null;
+ video.pause();
+ video.removeAttribute("src");
+ video.load();
+ placeholder.classList.add("hidden");
 }
+
+function selectChannel(c){
+ stopStream();
+ currentChannel=c;
+
+ const generation=playbackGeneration;
+ const isCurrent=()=>generation===playbackGeneration && currentChannel===c;
+
+ document.getElementById("nowTitle").textContent=`${c.category} • ${c.name}`;
+ document.getElementById("nowSubtitle").textContent="Zambia • Live TV & On-Demand";
+ document.getElementById("qualityLabel").textContent="";
+ placeholder.innerHTML="";
+
+ const url=c.available===true && typeof c.stream_url==="string"
+   ? c.stream_url : null;
+
+ if(!url){
+   statusLabel.textContent="FEED NOT CONNECTED";
+   say("This channel is not currently available for streaming.");
+   return;
+ }
+
+ statusLabel.textContent="CONNECTING…";
+
+ if(window.Hls && Hls.isSupported()){
+   const player=new Hls({
+     enableWorker:true,
+     lowLatencyMode:true,
+     capLevelToPlayerSize:true,
+     backBufferLength:30
+   });
+
+   hls=player;
+
+   player.on(Hls.Events.MANIFEST_PARSED,()=>{
+     if(!isCurrent() || hls!==player) return;
+
+     statusLabel.textContent="LIVE STREAM";
+     document.getElementById("qualityLabel").textContent="Adaptive bitrate enabled";
+
+     video.play().catch(()=>{
+       if(isCurrent()) say("Stream ready. Press play to begin watching.");
+     });
+   });
+
+   player.on(Hls.Events.ERROR,(_,data)=>{
+     if(!isCurrent() || hls!==player || !data.fatal) return;
+
+     let message="The authorised stream could not be played. Please try again later.";
+
+     if(data.type===Hls.ErrorTypes.NETWORK_ERROR){
+       message="Connection to this stream failed. Check your internet connection and try again.";
+     }else if(data.type===Hls.ErrorTypes.MEDIA_ERROR){
+       message="The stream has a media playback problem. Please try again later.";
+     }
+
+     statusLabel.textContent="STREAM ERROR";
+     player.destroy();
+     if(hls===player) hls=null;
+     say(message);
+   });
+
+   player.loadSource(url);
+   player.attachMedia(video);
+
+ }else if(video.canPlayType("application/vnd.apple.mpegurl")){
+   video.onloadedmetadata=()=>{
+     if(!isCurrent()) return;
+
+     statusLabel.textContent="LIVE STREAM";
+     video.play().catch(()=>{
+       if(isCurrent()) say("Stream ready. Press play to begin watching.");
+     });
+   };
+
+   video.src=url;
+
+ }else{
+   statusLabel.textContent="PLAYER UNSUPPORTED";
+   say("This browser does not support HLS playback. Try a supported modern browser.");
+ }
+
+ document.getElementById("livePanel").scrollIntoView({
+   behavior:"smooth",
+   block:"start"
+ });
+}
+
 function render(){
  let items=channels.filter(c=>
    (category==="All" || c.category===category) &&
