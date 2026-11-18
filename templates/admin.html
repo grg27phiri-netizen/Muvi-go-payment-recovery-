@@ -320,13 +320,143 @@
         placeholder="Enter content description"></textarea>
     </label>
 
-    <button class="studio-button" type="submit">
+
+    <label>
+      Select video or music file
+      <input
+        type="file"
+        name="media_file"
+        accept=".mp4,.webm,.m4v,.mov,.mp3,.m4a,.aac,.ogg,.wav,.flac,.opus"
+        required>
+      <small style="display:block;color:#aaa;margin-top:7px">
+        Select an authorised video or audio file from your phone.
+      </small>
+    </label>
+
+<button class="studio-button" type="submit">
       ＋ ADD TO CATALOGUE
     </button>
 
     <span id="studioMessage" role="status"
           aria-live="polite"></span>
   </form>
+</section>
+
+
+<section class="studio-panel" id="live-tv-management">
+  <p class="studio-eyebrow">BROADCAST CONTROL</p>
+  <h2>Live TV Channel Management</h2>
+  <p class="studio-muted">
+    Only manage channels for which MUVI GO has documented permission.
+    New channels remain pending, unverified and inactive until reviewed.
+  </p>
+
+  <form id="liveChannelCreateForm" class="studio-form">
+    <label>Channel ID
+      <input name="channel_id" maxlength="64"
+             placeholder="example-channel" required>
+    </label>
+    <label>Channel name
+      <input name="name" maxlength="100" required>
+    </label>
+    <label>Category
+      <input name="category" maxlength="60"
+             placeholder="News, Sports, Education..." required>
+    </label>
+    <label>Icon
+      <input name="icon" maxlength="16" value="📺">
+    </label>
+    <button class="studio-button" type="submit">ADD CHANNEL</button>
+    <span id="liveChannelCreateMessage" role="status" aria-live="polite"></span>
+  </form>
+
+  <hr style="border-color:#383039;margin:22px 0">
+
+  <h2>Channel Inventory</h2>
+  <button class="studio-button" type="button" id="refreshLiveChannels">
+    REFRESH CHANNELS
+  </button>
+  <p id="liveChannelListMessage" class="studio-muted"
+     role="status" aria-live="polite"></p>
+  <div id="liveChannelList" style="display:grid;gap:12px"></div>
+
+  <section class="studio-panel" id="liveChannelEditPanel" hidden>
+    <p class="studio-eyebrow">CHANNEL REVIEW</p>
+    <h2>Edit Channel</h2>
+    <p class="studio-muted">
+      Only mark authorization or feed verification complete after checking
+      genuine licensing documents and the authorized provider's feed.
+      Changing rights evidence resets approval and disables playback.
+    </p>
+
+    <form id="liveChannelEditForm" class="studio-form">
+      <input type="hidden" name="id">
+
+      <label>Channel name
+        <input name="name" maxlength="100" required>
+      </label>
+      <label>Category
+        <input name="category" maxlength="60" required>
+      </label>
+      <label>Icon
+        <input name="icon" maxlength="16">
+      </label>
+      <label>Rights holder
+        <input name="rights_holder" maxlength="160">
+      </label>
+      <label>Authorization / licence reference
+        <input name="authorization_reference" maxlength="500">
+      </label>
+      <label>Authorization notes
+        <textarea name="authorization_notes" maxlength="2000"></textarea>
+      </label>
+      <label>Authorized HLS stream URL
+        <input name="stream_url" type="url"
+               placeholder="https://provider.example/live/channel.m3u8">
+      </label>
+      <label>Authorization decision
+        <select name="authorization_status">
+          <option value="pending">Pending review</option>
+          <option value="authorized">Authorized</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </label>
+      <label>Feed verification
+        <select name="feed_status">
+          <option value="not_verified">Not verified</option>
+          <option value="verified">Verified</option>
+          <option value="error">Error</option>
+        </select>
+      </label>
+      <label style="display:flex;align-items:center;gap:10px">
+        <input name="is_active" type="checkbox" style="width:auto;margin:0">
+        Activate channel for viewers
+      </label>
+
+      <button class="studio-button" type="submit">SAVE CHANNEL</button>
+      <button class="studio-button" type="button" id="cancelLiveChannelEdit">
+        CANCEL
+      </button>
+      <span id="liveChannelEditMessage" role="status"
+            aria-live="polite"></span>
+    </form>
+  </section>
+</section>
+
+
+<section class="studio-panel" id="live-tv-audit">
+  <p class="studio-eyebrow">SECURITY & ACCOUNTABILITY</p>
+  <h2>Live TV Audit History</h2>
+  <p class="studio-muted">
+    Latest administrator actions, including channel creation,
+    authorization changes, feed verification and deletion.
+  </p>
+  <button class="studio-button" type="button" id="refreshLiveAudit">
+    REFRESH AUDIT HISTORY
+  </button>
+  <p id="liveAuditMessage" class="studio-muted"
+     role="status" aria-live="polite"></p>
+  <div id="liveAuditList" style="display:grid;gap:10px"></div>
 </section>
 
 <section class="studio-panel" id="media-library">
@@ -499,6 +629,294 @@
   });
 
 
+
+  // MUVI GO Live TV administrator controls.
+  const liveCreateForm = document.getElementById("liveChannelCreateForm");
+  const liveCreateMessage = document.getElementById("liveChannelCreateMessage");
+  const liveList = document.getElementById("liveChannelList");
+  const liveListMessage = document.getElementById("liveChannelListMessage");
+  const liveEditPanel = document.getElementById("liveChannelEditPanel");
+  const liveEditForm = document.getElementById("liveChannelEditForm");
+  const liveEditMessage = document.getElementById("liveChannelEditMessage");
+
+  let liveChannels = [];
+
+  function liveEscape(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;",
+      '"': "&quot;", "'": "&#39;"
+    })[char]);
+  }
+
+  async function loadLiveChannels() {
+    liveListMessage.textContent = "Loading channels...";
+    try {
+      const response = await fetch("/api/admin/channels", {
+        cache: "no-store",
+        credentials: "same-origin"
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.error || "Unable to load channels.");
+      }
+
+      liveChannels = result.channels || [];
+      liveList.replaceChildren();
+
+      if (!liveChannels.length) {
+        liveListMessage.textContent = "No channels have been added yet.";
+        return;
+      }
+
+      liveListMessage.textContent = liveChannels.length + " channel(s) found.";
+
+      liveChannels.forEach(channel => {
+        const card = document.createElement("article");
+        card.style.cssText =
+          "background:#101015;border:1px solid #45404a;border-radius:12px;padding:14px";
+
+        card.innerHTML = `
+          <strong>${liveEscape(channel.icon)} ${liveEscape(channel.name)}</strong>
+          <p class="studio-muted">
+            ${liveEscape(channel.category)} · ${liveEscape(channel.channel_id)}
+          </p>
+          <p class="studio-muted">
+            Rights: ${liveEscape(channel.authorization_status)}
+            · Feed: ${liveEscape(channel.feed_status)}
+            · Active: ${channel.is_active ? "Yes" : "No"}
+          </p>
+          <button type="button" class="studio-button"
+                  data-live-edit="${Number(channel.id)}">REVIEW / EDIT</button>
+          <button type="button" class="studio-button"
+                  data-live-delete="${Number(channel.id)}">DELETE CHANNEL</button>
+        `;
+        liveList.appendChild(card);
+      });
+    } catch (error) {
+      liveListMessage.textContent = error.message;
+    }
+  }
+
+  liveCreateForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    const button = liveCreateForm.querySelector('button[type="submit"]');
+    button.disabled = true;
+    liveCreateMessage.textContent = "Creating pending channel...";
+
+    try {
+      const payload = Object.fromEntries(new FormData(liveCreateForm).entries());
+      const response = await fetch("/api/admin/channels", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Channel creation failed.");
+
+      liveCreateForm.reset();
+      liveCreateForm.elements.icon.value = "📺";
+      liveCreateMessage.textContent =
+        "Channel created. It is pending, unverified and inactive.";
+      await loadLiveChannels();
+    } catch (error) {
+      liveCreateMessage.textContent = error.message;
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  liveList.addEventListener("click", event => {
+    const button = event.target.closest("[data-live-edit]");
+    if (!button) return;
+
+    const channel = liveChannels.find(
+      item => Number(item.id) === Number(button.dataset.liveEdit)
+    );
+    if (!channel) return;
+
+    liveEditForm.reset();
+    liveEditForm.elements.id.value = channel.id;
+    [
+      "name", "category", "icon", "rights_holder",
+      "authorization_reference", "authorization_notes",
+      "stream_url", "authorization_status", "feed_status"
+    ].forEach(field => {
+      liveEditForm.elements[field].value = channel[field] || "";
+    });
+    liveEditForm.elements.is_active.checked = Boolean(channel.is_active);
+    liveEditMessage.textContent = "";
+    liveEditPanel.hidden = false;
+    liveEditPanel.scrollIntoView({behavior: "smooth", block: "start"});
+  });
+
+  liveEditForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    const button = liveEditForm.querySelector('button[type="submit"]');
+    const channelId = liveEditForm.elements.id.value;
+    button.disabled = true;
+    liveEditMessage.textContent = "Saving channel review...";
+
+    try {
+      const payload = {
+        name: liveEditForm.elements.name.value,
+        category: liveEditForm.elements.category.value,
+        icon: liveEditForm.elements.icon.value,
+        rights_holder: liveEditForm.elements.rights_holder.value,
+        authorization_reference:
+          liveEditForm.elements.authorization_reference.value,
+        authorization_notes: liveEditForm.elements.authorization_notes.value,
+        stream_url: liveEditForm.elements.stream_url.value.trim() || null,
+        authorization_status:
+          liveEditForm.elements.authorization_status.value,
+        feed_status: liveEditForm.elements.feed_status.value,
+        is_active: liveEditForm.elements.is_active.checked
+      };
+
+      const response = await fetch(
+        "/api/admin/channels/" + encodeURIComponent(channelId),
+        {
+          method: "PATCH",
+          credentials: "same-origin",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(payload)
+        }
+      );
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Channel update failed.");
+
+      liveEditMessage.textContent =
+        "Saved. Review the resulting authorization and playback status.";
+      await loadLiveChannels();
+    } catch (error) {
+      liveEditMessage.textContent = error.message;
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  document.getElementById("cancelLiveChannelEdit").addEventListener("click", () => {
+    liveEditPanel.hidden = true;
+    liveEditForm.reset();
+    liveEditMessage.textContent = "";
+  });
+
+  document.getElementById("refreshLiveChannels")
+    .addEventListener("click", loadLiveChannels);
+
+  loadLiveChannels();
+
+
+  // Live TV channel deletion.
+  liveList.addEventListener("click", async event => {
+    const button = event.target.closest("[data-live-delete]");
+    if (!button) return;
+
+    const id = button.dataset.liveDelete;
+    const channel = liveChannels.find(
+      item => Number(item.id) === Number(id)
+    );
+    if (!channel) return;
+
+    if (!window.confirm(
+      "Permanently delete channel '" + channel.name +
+      "'? Its audit history will be retained."
+    )) return;
+
+    button.disabled = true;
+    liveListMessage.textContent = "Deleting channel...";
+
+    try {
+      const response = await fetch(
+        "/api/admin/channels/" + encodeURIComponent(id),
+        {
+          method: "DELETE",
+          credentials: "same-origin"
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Channel deletion failed.");
+      }
+
+      liveEditPanel.hidden = true;
+      liveListMessage.textContent = "Channel deleted successfully.";
+      await loadLiveChannels();
+      await loadLiveAudit();
+    } catch (error) {
+      liveListMessage.textContent = error.message;
+      button.disabled = false;
+    }
+  });
+
+  // Administrator audit history.
+  const auditList = document.getElementById("liveAuditList");
+  const auditMessage = document.getElementById("liveAuditMessage");
+
+  async function loadLiveAudit() {
+    auditMessage.textContent = "Loading audit history...";
+
+    try {
+      const response = await fetch("/api/admin/live-tv/audit", {
+        cache: "no-store",
+        credentials: "same-origin"
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Unable to load audit history.");
+      }
+
+      auditList.replaceChildren();
+
+      if (!result.events.length) {
+        auditMessage.textContent = "No administrator actions recorded yet.";
+        return;
+      }
+
+      auditMessage.textContent =
+        result.events.length + " recent audit event(s).";
+
+      result.events.forEach(item => {
+        const card = document.createElement("article");
+        card.style.cssText =
+          "background:#101015;border:1px solid #45404a;" +
+          "border-radius:10px;padding:12px";
+
+        const heading = document.createElement("strong");
+        heading.textContent = item.action;
+
+        const details = document.createElement("p");
+        details.className = "studio-muted";
+        details.textContent =
+          "Channel record: " + item.channel_db_id +
+          " · Administrator ID: " + (item.actor_user_id ?? "Unknown");
+
+        const timestamp = document.createElement("p");
+        timestamp.className = "studio-muted";
+        timestamp.textContent = item.created_at;
+
+        const description = document.createElement("p");
+        description.className = "studio-muted";
+        description.textContent = item.details;
+
+        card.append(heading, details, timestamp, description);
+        auditList.appendChild(card);
+      });
+
+    } catch (error) {
+      auditMessage.textContent = error.message;
+    }
+  }
+
+  document.getElementById("refreshLiveAudit")
+    .addEventListener("click", loadLiveAudit);
+
+  loadLiveAudit();
+
   // Media editing and deletion.
   const mediaGrid = document.getElementById("mediaGrid");
   const editPanel = document.getElementById("editMediaPanel");
@@ -602,44 +1020,75 @@
     }
   });
 
-  form.addEventListener("submit", async function(event) {
+
+  // MUVI GO real media upload with progress feedback.
+  form.addEventListener("submit", function(event) {
     event.preventDefault();
 
-    const button = form.querySelector("button[type=submit]");
+    const button = form.querySelector('button[type="submit"]');
+    const fileInput = form.elements.media_file;
+
+    if (!fileInput.files.length) {
+      message.textContent = "Please select a media file.";
+      return;
+    }
+
     button.disabled = true;
-    message.textContent = "Saving content...";
+    message.textContent = "Preparing upload...";
 
-    try {
-      const response = await fetch("/api/media", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(
-          Object.fromEntries(new FormData(form))
-        )
-      });
+    const payload = new FormData(form);
+    const xhr = new XMLHttpRequest();
 
+    xhr.open("POST", "/api/media/upload", true);
+
+    xhr.upload.onprogress = function(event) {
+      if (event.lengthComputable) {
+        const percent = Math.round(
+          (event.loaded / event.total) * 100
+        );
+
+        message.textContent = "Uploading: " + percent + "%";
+      } else {
+        message.textContent = "Uploading media...";
+      }
+    };
+
+    xhr.onload = function() {
       let result = {};
 
       try {
-        result = await response.json();
+        result = JSON.parse(xhr.responseText);
       } catch (_) {}
 
-      if (!response.ok) {
+      if (xhr.status < 200 || xhr.status >= 300) {
         message.textContent =
-          result.error || "Unable to save. Check admin permissions.";
+          result.error || "Upload failed. HTTP " + xhr.status;
+
+        button.disabled = false;
         return;
       }
 
-      message.textContent = "Content added successfully.";
-      window.location.reload();
-
-    } catch (error) {
       message.textContent =
-        "Connection error. Please try again.";
-    } finally {
+        "Upload successful! Adding to catalogue...";
+
+      window.location.reload();
+    };
+
+    xhr.onerror = function() {
+      message.textContent =
+        "Network error. Check your connection and try again.";
+
       button.disabled = false;
-    }
+    };
+
+    xhr.onabort = function() {
+      message.textContent = "Upload cancelled.";
+      button.disabled = false;
+    };
+
+    xhr.send(payload);
   });
+
 })();
 </script>
 

@@ -50,6 +50,22 @@ font-weight:800;font-size:14px}
 <p>Email: <strong>{{ user['email'] }}</strong></p>
 <p>Account type: <strong>Viewer</strong></p>
 </section>
+<section class="account">
+<p class="eyebrow">MY SUBSCRIPTION</p>
+
+{% if subscription and subscription['is_active'] %}
+<p>Plan: <strong>{{ subscription['plan']|capitalize }}</strong></p>
+<p>Status: <strong>Active</strong></p>
+<p>Expires: <strong>{{ subscription['expires_at'] }}</strong></p>
+{% elif subscription %}
+<p>Status: <strong>Expired or inactive</strong></p>
+<p>Last plan: <strong>{{ subscription['plan']|capitalize }}</strong></p>
+{% else %}
+<p>Status: <strong>No subscription yet</strong></p>
+<p>Choose a MUVI GO plan to activate your membership.</p>
+{% endif %}
+</section>
+
 <button id="logout" type="button">Sign Out</button>
 </main>
 <script>

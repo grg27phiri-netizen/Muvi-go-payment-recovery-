@@ -1,3 +1,4 @@
+
 import sqlite3
 import uuid
 from flask import Blueprint, current_app, jsonify, request
@@ -156,6 +157,45 @@ def payment_readiness():
         "live_provider_connected": False,
         "automatic_subscription_activation": False,
     })
+
+
+@payments_bp.get("/api/subscription/status")
+def subscription_status():
+    authenticated_user = current_user()
+    if authenticated_user is None:
+        return jsonify({
+            "ok": False,
+            "error": "authentication_required"
+        }), 401
+
+    conn = connect_db()
+    try:
+        row = conn.execute(
+            """
+            SELECT plan, status, created_at, expires_at,
+                   CASE
+                       WHEN status = 'active'
+                        AND expires_at > CURRENT_TIMESTAMP
+                       THEN 1 ELSE 0
+                   END AS is_active
+            FROM subscriptions
+            WHERE user_id = ?
+            ORDER BY is_active DESC, expires_at DESC
+            LIMIT 1
+            """,
+            (authenticated_user["id"],),
+        ).fetchone()
+
+        subscription = dict(row) if row else None
+        if subscription is not None:
+            subscription["is_active"] = bool(subscription["is_active"])
+
+        return jsonify({
+            "ok": True,
+            "subscription": subscription
+        })
+    finally:
+        conn.close()
 
 
 @payments_bp.post("/api/payments/initiate")

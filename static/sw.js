@@ -1,4 +1,4 @@
-const CACHE = "muvi-go-ui-v3";
+const CACHE = "muvi-go-ui-v6";
 const ASSETS = [
   "/",
   "/static/styles.css",
@@ -32,6 +32,7 @@ self.addEventListener("fetch", event => {
 
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+  if (url.pathname.startsWith("/api/")) return;
 
   event.respondWith(
     caches.match(event.request).then(cached => {

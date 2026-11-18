@@ -186,3 +186,98 @@ body{display:flex;justify-content:center;background:radial-gradient(ellipse at 1
     grid-template-columns: 1fr;
   }
 }
+
+
+/* MUVI GO persistent viewer account indicator */
+.account-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 11px;
+  padding: 8px 11px;
+  max-width: 230px;
+  border: 1px solid #514b42;
+  border-radius: 20px;
+  background: #1b1b20;
+  color: #f2c47d;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.account-indicator-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #999;
+}
+.account-indicator.authenticated .account-indicator-dot {
+  background: #78d66d;
+  box-shadow: 0 0 8px #78d66d88;
+}
+.account-indicator span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* MUVI GO subscription package dashboard */
+.payment-options {
+  margin-top: 22px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--panel);
+}
+.payment-options h2 {
+  margin: 0 0 8px;
+  font-size: 19px;
+}
+.payment-intro {
+  color: var(--muted);
+  font-size: 13px;
+}
+.payment-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 12px;
+  margin-top: 15px;
+}
+.payment-plan {
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #111117;
+}
+.payment-plan h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+.payment-plan p {
+  color: var(--muted);
+  font-size: 12px;
+}
+.payment-plan .payment-price {
+  color: var(--green);
+  font-size: 22px;
+  font-weight: 900;
+  margin: 8px 0;
+}
+.payment-plan .profile-action {
+  margin-top: 9px;
+  font-size: 12px;
+}
+.payment-warning {
+  margin-top: 16px;
+  padding: 11px;
+  border: 1px solid #8b6338;
+  border-radius: 10px;
+  color: #ffc27f;
+  font-size: 12px;
+  line-height: 1.5;
+}
+#paymentStatus {
+  overflow-wrap: anywhere;
+}

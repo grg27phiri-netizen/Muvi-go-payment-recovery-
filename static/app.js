@@ -1,77 +1,60 @@
 /*
- * MUVI GO streaming UI scaffold.
- * Add only stream URLs you are authorised to distribute in STREAMS below.
- * Never put provider secrets or payment credentials in this browser file.
+ * MUVI GO Live TV
+ * SQLite is the single source of truth for channels.
  */
-function makeChannel(name, category, id, icon) {
- return {
-  name, category, id,
-  icon: `<span>${icon}</span>`,
-  meta: `${category} • FEED NOT CONNECTED`,
-  views: "Viewers: —"
- };
+
+const channels = [];
+
+let category="All", tab="Home", query="";
+let showAll=false, hls=null, currentChannel=null;
+
+async function loadChannels(){
+ try {
+   const response = await fetch("/api/channels", {
+     credentials: "same-origin",
+     cache: "no-store"
+   });
+
+   if(!response.ok){
+     throw new Error("Channel API returned " + response.status);
+   }
+
+   const data = await response.json();
+
+   if(!Array.isArray(data)){
+     throw new Error("Invalid channel catalogue");
+   }
+
+   channels.splice(0, channels.length, ...data.map(c => ({
+     id: String(c.id),
+     name: String(c.name),
+     category: String(c.category),
+     icon: String(c.icon || "📺"),
+     available: c.available === true,
+     stream_url: c.available === true &&
+       typeof c.stream_url === "string"
+       ? c.stream_url : null
+   })));
+
+   render();
+ } catch(error) {
+   console.error("MUVI GO channel loading failed:", error);
+   channels.splice(0, channels.length);
+   render();
+   say("Unable to load Live TV channels. Please refresh.");
+ }
 }
 
-const channels = [
- makeChannel("ZNBC TV1","News","znbc-tv1","📺"),
- makeChannel("ZNBC TV2","News","znbc-tv2","📺"),
- makeChannel("Diamond TV","News","diamond-tv","📡"),
- makeChannel("Muvi TV","Movies","muvi-tv","🎬"),
- makeChannel("Prime TV","News","prime-tv","📰"),
- makeChannel("KBN TV","News","kbn-tv","🎙️"),
- makeChannel("Sports 24 Zambia","Sports","sports-24","⚽"),
- makeChannel("KidsZone Zambia","Kids","kidszone","🧒"),
- makeChannel("Edu TV Zambia","Education","edu-tv","🎓"),
- makeChannel("MovieMax","Movies","moviemax","🎞️"),
- makeChannel("News 24 Zambia","News","news24","🗞️"),
- makeChannel("Cartoon Kids","Kids","cartoon-kids","🎨"),
+function escapeChannelHTML(value){
+ return String(value).replace(/[&<>"']/g, char => ({
+   "&":"&amp;",
+   "<":"&lt;",
+   ">":"&gt;",
+   '"':"&quot;",
+   "'":"&#39;"
+ })[char]);
+}
 
- makeChannel("MUVI GO Zambia News","News","mg-zambia-news","📰"),
- makeChannel("MUVI GO Lusaka Headlines","News","mg-lusaka-news","🏙️"),
- makeChannel("MUVI GO Copperbelt Briefing","News","mg-copperbelt-news","⛏️"),
- makeChannel("MUVI GO Business & Markets","News","mg-business-news","📈"),
- makeChannel("MUVI GO Community Reports","News","mg-community-news","🤝"),
- makeChannel("MUVI GO Africa News Desk","News","mg-africa-news","🌍"),
- makeChannel("MUVI GO World News Desk","News","mg-world-news","🌐"),
- makeChannel("MUVI GO Public Affairs","News","mg-public-affairs","🏛️"),
-
- makeChannel("MUVI GO Zambia Football","Sports","mg-zambia-football","⚽"),
- makeChannel("MUVI GO Local Sports","Sports","mg-local-sports","🏆"),
- makeChannel("MUVI GO African Football","Sports","mg-africa-football","🌍"),
- makeChannel("MUVI GO World Football","Sports","mg-world-football","🥅"),
- makeChannel("MUVI GO Athletics","Sports","mg-athletics","🏃"),
- makeChannel("MUVI GO Basketball","Sports","mg-basketball","🏀"),
- makeChannel("MUVI GO Combat Sports","Sports","mg-combat-sports","🥊"),
- makeChannel("MUVI GO Sports Highlights","Sports","mg-sports-highlights","🎯"),
-
- makeChannel("MUVI GO Zambian Cinema","Movies","mg-zambian-cinema","🎬"),
- makeChannel("MUVI GO African Cinema","Movies","mg-african-cinema","🌍"),
- makeChannel("MUVI GO Action Movies","Movies","mg-action-movies","💥"),
- makeChannel("MUVI GO Drama Movies","Movies","mg-drama-movies","🎭"),
- makeChannel("MUVI GO Comedy Movies","Movies","mg-comedy-movies","😂"),
- makeChannel("MUVI GO Family Movies","Movies","mg-family-movies","👨‍👩‍👧"),
- makeChannel("MUVI GO Documentary Films","Movies","mg-documentaries","🎥"),
- makeChannel("MUVI GO Classic Cinema","Movies","mg-classic-cinema","🍿"),
-
- makeChannel("MUVI GO Kids Stories","Kids","mg-kids-stories","📚"),
- makeChannel("MUVI GO Learning Kids","Kids","mg-learning-kids","🧩"),
- makeChannel("MUVI GO Animation Hub","Kids","mg-animation","🎨"),
- makeChannel("MUVI GO Nature for Kids","Kids","mg-kids-nature","🦁"),
- makeChannel("MUVI GO Junior Science","Kids","mg-junior-science","🔬"),
- makeChannel("MUVI GO Kids Music","Kids","mg-kids-music","🎵"),
- makeChannel("MUVI GO Bedtime Stories","Kids","mg-bedtime-stories","🌙"),
-
- makeChannel("MUVI GO Digital Skills","Education","mg-digital-skills","💻"),
- makeChannel("MUVI GO Science & Technology","Education","mg-science-tech","🔬"),
- makeChannel("MUVI GO Agriculture Learning","Education","mg-agriculture","🌱"),
- makeChannel("MUVI GO Entrepreneurship","Education","mg-entrepreneurship","💼"),
- makeChannel("MUVI GO Health Education","Education","mg-health-education","🩺"),
- makeChannel("MUVI GO Languages & Culture","Education","mg-languages-culture","🗣️"),
- makeChannel("MUVI GO Skills Training","Education","mg-skills-training","🛠️")
-];
-// Configure authorised HLS feeds here, e.g. "znbc-tv1": "https://your-domain.example/live/znbc-tv1/master.m3u8"
-const STREAMS = {"muvi-tv": "/media-files/videos/muvi-test-h264.mp4"};
-let category="All", tab="Home", query="", showAll=false, hls=null, currentChannel=null;
 const grid=document.getElementById("channelGrid"), count=document.getElementById("channelCount"), toast=document.getElementById("toast");
 const video=document.getElementById("liveVideo"), placeholder=document.getElementById("playerPlaceholder"), statusLabel=document.getElementById("playerStatus");
 placeholder.classList.add("hidden");
@@ -83,18 +66,9 @@ function selectChannel(c){
  stopStream();
  statusLabel.textContent="SELECTED: " + c.name.toUpperCase();
  placeholder.innerHTML="";
- const url=STREAMS[c.id];
+ const url=c.available === true ? c.stream_url : null;
  if(!url){placeholder.classList.add("hidden");statusLabel.textContent="";document.getElementById("qualityLabel").textContent="";return}
  placeholder.classList.add("hidden");statusLabel.textContent="CONNECTING…";
- if(url.toLowerCase().split("?")[0].endsWith(".mp4")){
-   document.getElementById("qualityLabel").textContent="Local MP4 test asset";
-   statusLabel.textContent="LOADING TEST VIDEO";
-   video.src=url;
-   video.load();
-   video.play().catch(()=>say("Test video loaded. Press play to begin."));
-   document.getElementById("livePanel").scrollIntoView({behavior:"smooth",block:"start"});
-   return;
- }
  if(window.Hls&&Hls.isSupported()){
    hls=new Hls({enableWorker:true,lowLatencyMode:true,capLevelToPlayerSize:true,backBufferLength:30});
    hls.loadSource(url);hls.attachMedia(video);
@@ -106,16 +80,59 @@ function selectChannel(c){
  document.getElementById("livePanel").scrollIntoView({behavior:"smooth",block:"start"});
 }
 function render(){
- let items=channels.filter(c=>(category==="All"||c.category===category)&&c.name.toLowerCase().includes(query.toLowerCase()));
- if(tab==="Saved")items=items.filter(c=>saved().includes(c.name));
- if(!showAll&&tab==="Home")items=items.slice(0,12);
+ let items=channels.filter(c=>
+   (category==="All" || c.category===category) &&
+   c.name.toLowerCase().includes(query.toLowerCase())
+ );
+
+ if(tab==="Saved"){
+   items=items.filter(c=>saved().includes(c.name));
+ }
+
+ if(!showAll && tab==="Home"){
+   items=items.slice(0,12);
+ }
+
  count.textContent=`${items.length} Channel${items.length===1?"":"s"}`;
- grid.innerHTML=items.map(c=>{const configured=Boolean(STREAMS[c.id]);const feedStatus=configured?"FEED CONFIGURED — NOT VERIFIED":"FEED NOT CONNECTED";return `<button class="channel-card" data-id="${c.id}"><span class="saved-mark">${saved().includes(c.name)?"♥":""}</span><div class="logo">${c.icon}</div><h3>${c.name}</h3><div class="views">${c.views}</div></button>`}).join("");
- grid.querySelectorAll(".channel-card").forEach(el=>el.addEventListener("click",e=>{
-   const c=channels.find(x=>x.id===el.dataset.id);
-   if(e.target.closest(".saved-mark")){let s=saved();s=s.includes(c.name)?s.filter(n=>n!==c.name):[...s,c.name];localStorage.setItem("muviGoSaved",JSON.stringify(s));render();say(s.includes(c.name)?`${c.name} saved.`:`${c.name} removed from Saved.`);return}
-   selectChannel(c);
- }));
+
+ grid.innerHTML=items.map(c=>{
+   const name=escapeChannelHTML(c.name);
+   const id=escapeChannelHTML(c.id);
+   const icon=escapeChannelHTML(c.icon);
+   const status=c.available
+     ? "LIVE FEED AVAILABLE"
+     : "FEED NOT CONNECTED";
+
+   return `<button class="channel-card" data-id="${id}">
+     <span class="saved-mark">${saved().includes(c.name)?"♥":""}</span>
+     <div class="logo">${icon}</div>
+     <h3>${name}</h3>
+     <div class="views">${status}</div>
+   </button>`;
+ }).join("");
+
+ grid.querySelectorAll(".channel-card").forEach(el=>
+   el.addEventListener("click",e=>{
+     const c=channels.find(x=>x.id===el.dataset.id);
+     if(!c) return;
+
+     if(e.target.closest(".saved-mark")){
+       let s=saved();
+       s=s.includes(c.name)
+         ? s.filter(n=>n!==c.name)
+         : [...s,c.name];
+
+       localStorage.setItem("muviGoSaved",JSON.stringify(s));
+       render();
+       say(s.includes(c.name)
+         ? `${c.name} saved.`
+         : `${c.name} removed from Saved.`);
+       return;
+     }
+
+     selectChannel(c);
+   })
+ );
 }
 
 /* MUVI GO Profile integration v1 */
@@ -135,6 +152,16 @@ function render(){
     const authenticated = Boolean(profileUser);
     signedOut.classList.toggle("hidden", authenticated);
     signedIn.classList.toggle("hidden", !authenticated);
+
+    const indicator = byId("accountIndicator");
+    const indicatorText = byId("accountIndicatorText");
+
+    if (indicator && indicatorText) {
+      indicator.classList.toggle("authenticated", authenticated);
+      indicatorText.textContent = authenticated
+        ? (profileUser.name || "MUVI GO Viewer")
+        : "Sign in to MUVI GO";
+    }
 
     if (authenticated) {
       byId("profileUserName").textContent = profileUser.name || "Account";
@@ -232,7 +259,7 @@ function render(){
         // Route authenticated accounts to their correct dashboard.
         if (endpoint === "/api/auth/login" && profileUser) {
           window.location.assign(
-            profileUser.role === "admin" ? "/admin" : "/account"
+            profileUser.role === "admin" ? "/admin" : "/"
           );
         }
       } catch (error) {
@@ -270,6 +297,53 @@ function render(){
     }
   });
 
+  const accountIndicator = byId("accountIndicator");
+  if (accountIndicator) {
+    accountIndicator.addEventListener("click", () => {
+      const profileTab = document.querySelector(
+        '.nav-item[data-tab="Profile"]'
+      );
+      if (profileTab) profileTab.click();
+    });
+  }
+
+  // Sandbox payment requests: records only; no provider charge or activation.
+  document.querySelectorAll("[data-payment-plan][data-payment-provider]")
+    .forEach(button => {
+      button.addEventListener("click", async () => {
+        const paymentStatus = byId("paymentStatus");
+
+        if (!profileUser) {
+          paymentStatus.textContent = "Please sign in before requesting a payment.";
+          return;
+        }
+
+        const plan = button.dataset.paymentPlan;
+        const provider = button.dataset.paymentProvider;
+
+        button.disabled = true;
+        paymentStatus.textContent = "Creating a pending payment record…";
+
+        try {
+          const result = await request("/api/payments/initiate", "POST", {
+            plan,
+            provider
+          });
+
+          paymentStatus.textContent =
+            "Pending sandbox record created. Reference: " +
+            result.payment_ref +
+            ". Amount: ZMW " + result.amount +
+            ". No payment has been collected and no subscription activated.";
+        } catch (error) {
+          paymentStatus.textContent =
+            error.message || "Could not create the payment request.";
+        } finally {
+          button.disabled = false;
+        }
+      });
+    });
+
   window.muviGoRefreshProfile = refreshProfile;
   window.muviGoUpdateProfileVisibility = updateProfileVisibility;
 
@@ -288,13 +362,17 @@ document.getElementById("pictureBtn").addEventListener("click",()=>say("Picture-
 document.getElementById("fullscreenBtn").addEventListener("click",()=>{const el=document.querySelector(".video-stage");if(el.requestFullscreen)el.requestFullscreen().catch(()=>say("Full screen is not available in this browser."));else say("Full screen is not supported in this browser.")});
 video.addEventListener("playing",()=>{
  placeholder.classList.add("hidden");
- statusLabel.textContent=video.currentSrc.toLowerCase().split("?")[0].endsWith(".mp4")?"TEST VIDEO PLAYING":"LIVE STREAM";
+ statusLabel.textContent="LIVE STREAM";
 });
 
 // MUVI GO playback events: report only for the currently selected,
 // configured channel. Unconfigured channels retain their no-feed status.
 function hasConfiguredSelection(){
- return Boolean(currentChannel && STREAMS[currentChannel.id]);
+ return Boolean(
+   currentChannel &&
+   currentChannel.available === true &&
+   currentChannel.stream_url
+ );
 }
 
 video.addEventListener("canplay",()=>{
@@ -313,8 +391,7 @@ video.addEventListener("pause",()=>{
 
 video.addEventListener("ended",()=>{
  if(hasConfiguredSelection()){
-   statusLabel.textContent=video.currentSrc.toLowerCase().split("?")[0].endsWith(".mp4")
-     ?"TEST VIDEO ENDED":"STREAM ENDED";
+   statusLabel.textContent="STREAM ENDED";
  }
 });
 
@@ -324,7 +401,7 @@ video.addEventListener("error",()=>{
    say("Video playback failed. Check the media file and browser playback support.");
  }
 });
-render();
+loadChannels();
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));
 
 

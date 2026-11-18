@@ -9,7 +9,13 @@
 <body>
 <div class="app-shell">
   <header class="topbar">
-    <div><div class="brand"><span>MUVI GO</span><b>TV</b><i class="flag"><em></em></i></div><div class="tagline">Zambia • Live TV &amp; On-Demand</div></div>
+    <div><div class="brand"><span>MUVI GO</span><b>TV</b><i class="flag"><em></em></i></div><div class="tagline">Zambia • Live TV &amp; On-Demand</div>
+    <button id="accountIndicator" class="account-indicator"
+            type="button" aria-label="Open your MUVI GO account">
+      <span class="account-indicator-dot"></span>
+      <span id="accountIndicatorText">Sign in to MUVI GO</span>
+    </button>
+    </div>
     <div class="header-actions"><button aria-label="Search" id="searchToggle" class="icon-btn">⌕</button><button aria-label="Notifications" id="notify" class="icon-btn">♧</button></div>
   </header>
   <div id="searchPanel" class="search-panel hidden"><input id="searchInput" placeholder="Search channels…" autocomplete="off"></div>
@@ -96,6 +102,44 @@
         <p>Account role: <strong id="profileUserRole">viewer</strong></p>
         <button id="profileLogout" class="profile-action secondary" type="button">Sign out</button>
       </div>
+      <section id="paymentOptions" class="payment-options" aria-labelledby="paymentHeading">
+        <h2 id="paymentHeading">Subscription Packages</h2>
+        <p class="payment-intro">Choose a package to request payment.</p>
+
+        <div class="payment-plan-grid">
+          <article class="payment-plan">
+            <h3>Weekly</h3>
+            <p class="payment-price">ZMW 10</p>
+            <p>7 days of video access</p>
+            <button class="profile-action" type="button" data-payment-plan="weekly" data-payment-provider="mtn_momo">MTN MoMo</button>
+            <button class="profile-action secondary" type="button" data-payment-plan="weekly" data-payment-provider="airtel_money">Airtel Money</button>
+          </article>
+
+          <article class="payment-plan">
+            <h3>Monthly</h3>
+            <p class="payment-price">ZMW 30</p>
+            <p>30 days of video access</p>
+            <button class="profile-action" type="button" data-payment-plan="monthly" data-payment-provider="mtn_momo">MTN MoMo</button>
+            <button class="profile-action secondary" type="button" data-payment-plan="monthly" data-payment-provider="airtel_money">Airtel Money</button>
+          </article>
+
+          <article class="payment-plan">
+            <h3>Annual</h3>
+            <p class="payment-price">ZMW 300</p>
+            <p>365 days of video access</p>
+            <button class="profile-action" type="button" data-payment-plan="annual" data-payment-provider="mtn_momo">MTN MoMo</button>
+            <button class="profile-action secondary" type="button" data-payment-plan="annual" data-payment-provider="airtel_money">Airtel Money</button>
+          </article>
+        </div>
+
+        <p class="payment-warning">
+          Sandbox mode: these buttons create pending payment records only.
+          No money is collected and no subscription is activated yet.
+        </p>
+        <p id="paymentStatus" class="profile-status" role="status" aria-live="polite">
+          Sign in to request a payment.
+        </p>
+      </section>
     </section>
   </main>
   <nav class="bottom-nav" aria-label="Main navigation">
@@ -103,5 +147,5 @@
   </nav>
 </div>
 <div id="toast" class="toast" role="status"></div>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js" crossorigin="anonymous"></script><script src="/static/app.js?v=20261101-hide-feed-captions"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js" crossorigin="anonymous"></script><script src="/static/app.js?v=20261113-subscription-packages"></script>
 </body></html>
